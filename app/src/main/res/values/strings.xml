@@ -1,3 +1,67 @@
 <resources>
-    <string name="app_name">Order2 FSE</string>
+    <string name="app_name">Seller Partner</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Bibek Kumar Jena</string>
+    <string name="nav_header_subtitle">bibekkumar847@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_shopbycategory">Shop By Category</string>
+    <string name="menu_jiomartwallet">JioMart Wallet</string>
+    <string name="menu_myorders">My Orders</string>
+    <string name="menu_myaccount">My Account</string>
+    <string name="menu_mysubscription">My Subscription</string>
+    <string name="menu_alloffers">All Offers</string>
+    <string name="menu_helpandsettings">Help And Settings</string>
+    <string name="menu_customerservice">Customer Service</string>
+    <string name="menu_guide">Guide</string>
+    <string name="menu_signin">Sign In</string>
+
+
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next2">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="title_deep_dive">RGBS Insights</string>
+    <string name="title_idea_hotpot">Academic Programs</string>
+    <string name="title_insights">Admission 2020</string>
+    <string name="title_offerings">Career 360</string>
+    <string name="title_careers">Enquire Us</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Careers</string>
+    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+
+    <string name="slide_2_title">Offerings</string>
+    <string name="slide_2_desc">Book sellerListModel tickets for your family and friends!</string>
+
+    <string name="slide_3_title">Hot Pot</string>
+    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+
+    <string name="slide_4_title">Deep Dive</string>
+    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
+    <string name="slide_5_title">Insights</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login_tab">LoginTabActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="by_pressing">by pressing Submit you agree to our</string>
+
 </resources>
