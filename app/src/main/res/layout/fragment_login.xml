@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".LoginFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_mail_black_24dp"
+            android:drawablePadding="10dp"
+            android:textSize="14sp"
+            android:hint="Email Address or Mobile"
+            android:padding="10dp">
+
+        </EditText>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:drawablePadding="10dp"
+            android:textSize="14sp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="10dp">
+
+        </EditText>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/login_using_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="5dp"
+                android:text="Login Using OTP"
+                android:textColor="@color/colorPrimary">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/forget_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="right"
+                android:padding="5dp"
+                android:text="Forget Password"
+                android:textColor="@color/colorPrimary">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Don't have an account:">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:text="signup">
+
+            </TextView>
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="1dip"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary">
+
+            </View>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/login"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="30dp"
+                app:cardBackgroundColor="@color/colorPrimary">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_forward_black_24dp">
+                </ImageView>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

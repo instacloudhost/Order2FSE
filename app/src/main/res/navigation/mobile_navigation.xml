@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.instacloud.order2fse.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_shopbycategory"
+        android:name="com.instacloud.order2fse.ui.ShopByCategory.ShopByCategoryFragment"
+        android:label="@string/menu_shopbycategory"
+        tools:layout="@layout/fragment_shop_by_category" />
+
+
+    <fragment
+        android:id="@+id/nav_alloffers"
+        android:name="com.instacloud.order2fse.ui.MobileVerificationFragment.MobileVerificationFragment"
+        android:label="@string/menu_alloffers"
+        tools:layout="@layout/mobile_verification_fragment" />
+
+    <fragment
+        android:id="@+id/nav_signin"
+        android:name="com.instacloud.order2fse.ui.SignIn.SignInFragment"
+        android:label="@string/menu_signin"
+        tools:layout="@layout/sign_in_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_shop"
+        android:name="com.instacloud.order2fse.ui.MobileVerificationFragment.MobileVerificationFragment"
+        android:label="@string/menu_signin"
+        tools:layout="@layout/fragment_add_seller" />
+
+    <fragment
+        android:id="@+id/navigation_gifts"
+        android:name="com.instacloud.order2fse.ui.home.HomeFragment"
+        android:label="@string/menu_signin"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/navigation_insights"
+        android:name="com.instacloud.order2fse.ui.SellerList.SellerListFragment"
+        android:label="@string/menu_signin"
+        tools:layout="@layout/fragment_add_seller" />
+</navigation>
