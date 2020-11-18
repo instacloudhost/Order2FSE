@@ -8,33 +8,33 @@
             android:id="@+id/nav_home"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_shopbycategory"
-            android:title="@string/menu_shopbycategory" />
-        <item
-            android:id="@+id/nav_jiomartwallet"
-            android:title="@string/menu_jiomartwallet" />
-        <item
-            android:id="@+id/nav_myorders"
-            android:title="@string/menu_myorders" />
+            android:id="@+id/nav_aboutUs"
+            android:title="@string/menu_aboutUs" />
+<!--        <item-->
+<!--            android:id="@+id/nav_jiomartwallet"-->
+<!--            android:title="@string/menu_jiomartwallet" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_myorders"-->
+<!--            android:title="@string/menu_myorders" />-->
 
-        <item
-            android:id="@+id/nav_myaccount"
-            android:title="@string/menu_myaccount" />
-        <item
-            android:id="@+id/nav_mysubscription"
-            android:title="@string/menu_mysubscription" />
-        <item
-            android:id="@+id/nav_alloffers"
-            android:title="@string/menu_alloffers" />
-        <item
-            android:id="@+id/nav_helpandsettings"
-            android:title="@string/menu_helpandsettings" />
-        <item
-            android:id="@+id/nav_customerservice"
-            android:title="@string/menu_customerservice" />
-        <item
-            android:id="@+id/nav_guide"
-            android:title="@string/menu_guide" />
+<!--        <item-->
+<!--            android:id="@+id/nav_myaccount"-->
+<!--            android:title="@string/menu_myaccount" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_mysubscription"-->
+<!--            android:title="@string/menu_mysubscription" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_alloffers"-->
+<!--            android:title="@string/menu_alloffers" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_helpandsettings"-->
+<!--            android:title="@string/menu_helpandsettings" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_customerservice"-->
+<!--            android:title="@string/menu_customerservice" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_guide"-->
+<!--            android:title="@string/menu_guide" />-->
         <item
             android:id="@+id/nav_signin"
             android:title="@string/menu_signin" />

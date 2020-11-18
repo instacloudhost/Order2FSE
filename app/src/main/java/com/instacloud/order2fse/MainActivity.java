@@ -1,8 +1,11 @@
 package com.instacloud.order2fse;
 
+import android.Manifest;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +20,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
        // navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         navigation.setSelectedItemId(R.id.navigation_gifts);
 
 
@@ -55,12 +61,11 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_shopbycategory, R.id.nav_jiomartwallet,
-                R.id.nav_myorders, R.id.nav_myaccount,R.id.nav_mysubscription,R.id.nav_alloffers,R.id.nav_helpandsettings,R.id.nav_customerservice,
-                R.id.nav_guide,R.id.nav_signin,R.id.navigation_shop, R.id.navigation_gifts, R.id.navigation_insights)
+                R.id.nav_home,R.id.nav_aboutUs, R.id.nav_signin,R.id.navigation_shop, R.id.navigation_gifts, R.id.navigation_insights)
                 .setDrawerLayout(drawer)
                 .build();
 
+       permit();
 
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -69,6 +74,37 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigation, navController);
 
 
+    }
+
+
+    public void permit() {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+//                Toast.makeText(MainActivity.this,"Permissions Granted", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(MainActivity.this,"Permissions Not Granted", Toast.LENGTH_LONG).show();
+            }
+        };
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                TedPermission.with(MainActivity.this)
+                        .setPermissionListener(permissionListener)
+                        .setPermissions(
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.ACCESS_NETWORK_STATE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                                Manifest.permission.FOREGROUND_SERVICE
+
+                        ).check();
+            }
+        }
     }
 
 
@@ -87,4 +123,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }
