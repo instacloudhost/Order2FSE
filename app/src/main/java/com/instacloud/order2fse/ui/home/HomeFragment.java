@@ -97,6 +97,7 @@ public class HomeFragment extends Fragment {
                         for (int i = 0; i < message.size(); i++) {
                             viewRestaurantAdapter = new ViewRestaurantAdapter(getContext(), (ArrayList<DataRestoID>) message);
                             recyclerView.setAdapter(viewRestaurantAdapter);
+                            recyclerView.invalidate();
                             viewRestaurantAdapter.notifyDataSetChanged();
                         }
                     } else {
