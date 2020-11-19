@@ -7,6 +7,8 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.instacloud.order2fse.ui.Login.LoginActivity;
+
 public class SplashScreen extends AppCompatActivity {
 
     // Splash screen timer
@@ -30,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashScreen.this,LoginActivity.class);
+                Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                 startActivity(i);
 
                 // close this activity

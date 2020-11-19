@@ -1,27 +1,44 @@
 package com.instacloud.order2fse.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.instacloud.order2fse.R;
+import com.instacloud.order2fse.Util.CheckNetwork;
+import com.instacloud.order2fse.Util.InternetConnection;
+import com.instacloud.order2fse.remote.APIService;
+import com.instacloud.order2fse.remote.RetrofitClient;
+import com.instacloud.order2fse.ui.Item.Activity.ItemListActivity;
 import com.instacloud.order2fse.ui.SellerList.SellerAdapter;
 import com.instacloud.order2fse.ui.SellerList.SellerListModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private HomeViewModel homeViewModel;
 
@@ -29,83 +46,131 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private SellerAdapter mAdapter;
 
+    private String extremes = "extremeStorage", type;
+    private SharedPreferences token;
+
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    LinearLayoutManager linearLayoutManager;
+
+
+    Timer timer;
+    String tokenid;
+
+
+    ViewRestaurantAdapter viewRestaurantAdapter;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(this, new Observer<String>() {
+
+
+//        timer = new Timer();
+//        TimerTask hourlyTask = new TimerTask() {
 //            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-
-//        ViewPager viewPager = root.findViewById(R.id.viewPager);
-//        ViewPager viewPager2 = root.findViewById(R.id.viewpager2);
-        //  ImageAdapter adapter = new ImageAdapter(getContext());
-        //  ImageAdapter2 adapter2 = new ImageAdapter2(getContext());
-//        viewPager.setAdapter(adapter);
-//        viewPager2.setAdapter(adapter2);
-
-
+//            public void run() {
+//                refreshMenu();
 //            }
-//        });
+//        };
+//        timer.schedule(hourlyTask, 0l, 1000);
+
+        token = getActivity().getSharedPreferences(extremes,
+                Context.MODE_PRIVATE);
+        tokenid = token.getString("token", "");
+        Log.d("Response: ", tokenid);
 
 
-        // data to populate the RecyclerView with
-//        ArrayList<String> animalNames = new ArrayList<>();
-//        animalNames.add("Horse");
-//        animalNames.add("Cow");
-//        animalNames.add("Camel");
-//        animalNames.add("Sheep");
-//        animalNames.add("Goat");
-//
-//
-//        ArrayList<String> animalNames2 = new ArrayList<>();
-//        animalNames.add("Horse");
-//        animalNames.add("Cow");
-//        animalNames.add("Camel");
-//        animalNames.add("Sheep");
-//        animalNames.add("Goat");
+        swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_layout_home);
+        recyclerView = root.findViewById(R.id.recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
 
-//        // set up the RecyclerView
-//        RecyclerView recyclerView =root.findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        adapter = new MyRecyclerViewAdapter(getActivity(), animalNames,animalNames2);
-//        adapter.setClickListener(this);
-//        recyclerView.setAdapter(adapter);
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
 
-        mAdapter = new SellerAdapter(sellerListModelList);
+                                        if (CheckNetwork.isInternetAvailable(getContext())) //returns true if internet available
+                                        {
+                                            refreshMenu();
+                                        } else {
+                                            Toast.makeText(getContext(), "Please check your Internet Connection and try Again", Toast.LENGTH_SHORT).show();
+                                            Intent in = new Intent(getContext(), InternetConnection.class);
+                                            startActivity(in);
+                                            getActivity().finish();
+                                        }
+                                    }
+                                }
+        );
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
-        recyclerView.setLayoutManager(mLayoutManager);
 
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
 
-        prepareMovieData();
+        //refreshMenu();
 
         return root;
     }
 
+    private void refreshMenu() {
+        Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+        APIService apiservice = retrofit.create(APIService.class);
+        Call call = apiservice.getRestaurantByAgentId("Test", "Test", "100", "56", tokenid);
 
-    private void prepareMovieData() {
-        SellerListModel sellerListModel = new SellerListModel("Order Id :#1", "05-11-2020 | 02:55pm", "$17.59", "Pay on PickUp", "Extremes Pay", "9586554554", "Active");
-        sellerListModelList.add(sellerListModel);
+        call.enqueue(new Callback<RestoByAgentIdModel>() {
 
-        sellerListModel = new SellerListModel("Order Id :#2", "05-11-2020 | 02:55pm", "$20.11", "Pay on PickUp", "Phone Pay", "9586554554", "Inactive");
-        sellerListModelList.add(sellerListModel);
+            @Override
+            public void onResponse(Call<RestoByAgentIdModel> call, Response<RestoByAgentIdModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getSuccess().equals(true)) {
+                        List<DataRestoID> message = response.body().getData();
 
-        sellerListModel = new SellerListModel("Order Id :#3", "05-11-2020 | 02:55pm", "$50.01", "Pay on PickUp", "Google  Pay", "9586554554", "Pending");
-        sellerListModelList.add(sellerListModel);
+                        for (int i = 0; i < message.size(); i++) {
+                            viewRestaurantAdapter = new ViewRestaurantAdapter(getContext(), (ArrayList<DataRestoID>) message);
+                            recyclerView.setAdapter(viewRestaurantAdapter);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            recyclerView.invalidate();
+                            viewRestaurantAdapter.notifyDataSetChanged();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
 
-        sellerListModel = new SellerListModel("Order Id :#4", "05-11-2020 | 02:55pm", "$10.59", "Pay on PickUp", "Bharat Pay", "9586554554", "Cancel");
-        sellerListModelList.add(sellerListModel);
+            @Override
+            public void onFailure(Call<RestoByAgentIdModel> call, Throwable t) {
+                //Toast.makeText(MenuListActivity.this, "Failure " + t, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
-        mAdapter.notifyDataSetChanged();
     }
+
+
+    @Override
+    public void onRefresh() {
+
+        //modules.clear();
+        if (CheckNetwork.isInternetAvailable(getContext())) //returns true if internet available
+        {
+            refreshMenu();
+
+        } else {
+
+            Toast.makeText(getContext(), "Please check your Internet Connection and try Again", Toast.LENGTH_SHORT).show();
+            Intent in = new Intent(getContext(), InternetConnection.class);
+            startActivity(in);
+            getActivity().finish();
+        }
+
+    }
+
+
+
 }

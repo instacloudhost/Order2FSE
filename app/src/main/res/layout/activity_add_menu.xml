@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.Item.Activity.AddItemActivity">
+
+
+    <include layout="@layout/toolbar"></include>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <com.weiwangcn.betterspinner.library.BetterSpinner
+            android:id="@+id/itemCategorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="Item Category"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:drawableLeft="@drawable/ic_baseline_local_mall_24"
+            android:padding="10dp"
+            android:background="@drawable/edittext_design_shape2">
+
+        </com.weiwangcn.betterspinner.library.BetterSpinner>
+
+        <com.weiwangcn.betterspinner.library.BetterSpinner
+            android:id="@+id/itemsSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="Items"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:drawableLeft="@drawable/ic_baseline_local_mall_24"
+            android:padding="10dp"
+            android:background="@drawable/edittext_design_shape2">
+
+        </com.weiwangcn.betterspinner.library.BetterSpinner>
+
+
+
+        <EditText
+            android:id="@+id/food_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_baseline_local_mall_24"
+            android:drawablePadding="10dp"
+            android:hint="Item Name*"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </EditText>
+
+
+
+        <EditText
+            android:id="@+id/food_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+            android:drawablePadding="10dp"
+            android:hint="Item Price*"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/food_discount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+            android:drawablePadding="10dp"
+            android:hint="Item Discount*"
+            android:inputType="number"
+            android:maxLines="10"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </EditText>
+
+
+
+
+        <com.weiwangcn.betterspinner.library.BetterSpinner
+            android:id="@+id/unitSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="Item Unit"
+            android:visibility="visible"
+            android:textSize="14sp"
+            android:drawableLeft="@drawable/ic_baseline_local_mall_24"
+            android:textAlignment="center"
+            android:padding="10dp"
+            android:background="@drawable/edittext_design_shape2">
+
+        </com.weiwangcn.betterspinner.library.BetterSpinner>
+
+        <EditText
+            android:id="@+id/item_package_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_baseline_package_count_24"
+            android:drawablePadding="10dp"
+            android:hint="Package Count"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </EditText>
+
+
+        <EditText
+            android:id="@+id/item_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_baseline_food_weight_24"
+            android:drawablePadding="10dp"
+            android:hint="Item Weight"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/item_description"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="start"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_baseline_description_24"
+            android:drawablePadding="10dp"
+            android:hint="Item Description"
+            android:inputType="text"
+            android:maxLines="8"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/item_Specification"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawableLeft="@drawable/ic_baseline_description_24"
+            android:drawablePadding="10dp"
+            android:hint="Item Specification"
+            android:inputType="text"
+            android:maxLines="8"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </EditText>
+
+
+
+
+
+
+
+        <com.weiwangcn.betterspinner.library.BetterSpinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="Main Category"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:drawableLeft="@drawable/ic_baseline_food_ingredients_24"
+            android:padding="10dp"
+            android:background="@drawable/edittext_design_shape2">
+
+        </com.weiwangcn.betterspinner.library.BetterSpinner>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:text="Upload Item Image">
+
+        </TextView>
+
+
+        <ImageView
+            android:id="@+id/food_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_design_shape2"
+            android:drawablePadding="10dp"
+            android:hint="Customer Name*"
+            android:src="@drawable/fastfood"
+            android:padding="10dp"
+            android:textSize="14sp">
+
+        </ImageView>
+
+
+        <Button
+            android:id="@+id/add_food_menu_Button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@drawable/edittext_design_shape">
+
+        </Button>
+
+
+    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
