@@ -1,6 +1,7 @@
 package com.instacloud.order2fse.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.instacloud.order2fse.R;
+import com.instacloud.order2fse.Util.CheckNetwork;
+import com.instacloud.order2fse.Util.InternetConnection;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient;
+import com.instacloud.order2fse.ui.Item.Activity.ItemListActivity;
 import com.instacloud.order2fse.ui.SellerList.SellerAdapter;
 import com.instacloud.order2fse.ui.SellerList.SellerListModel;
 
@@ -32,7 +38,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private HomeViewModel homeViewModel;
 
@@ -42,6 +48,11 @@ public class HomeFragment extends Fragment {
 
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
+
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    LinearLayoutManager linearLayoutManager;
+
 
     Timer timer;
     String tokenid;
@@ -71,12 +82,36 @@ public class HomeFragment extends Fragment {
         Log.d("Response: ", tokenid);
 
 
+        swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_layout_home);
         recyclerView = root.findViewById(R.id.recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+
+                                        if (CheckNetwork.isInternetAvailable(getContext())) //returns true if internet available
+                                        {
+                                            refreshMenu();
+                                        } else {
+                                            Toast.makeText(getContext(), "Please check your Internet Connection and try Again", Toast.LENGTH_SHORT).show();
+                                            Intent in = new Intent(getContext(), InternetConnection.class);
+                                            startActivity(in);
+                                            getActivity().finish();
+                                        }
+                                    }
+                                }
+        );
 
 
 
 
-        refreshMenu();
+        //refreshMenu();
 
         return root;
     }
@@ -97,8 +132,10 @@ public class HomeFragment extends Fragment {
                         for (int i = 0; i < message.size(); i++) {
                             viewRestaurantAdapter = new ViewRestaurantAdapter(getContext(), (ArrayList<DataRestoID>) message);
                             recyclerView.setAdapter(viewRestaurantAdapter);
+                            recyclerView.setLayoutManager(linearLayoutManager);
                             recyclerView.invalidate();
                             viewRestaurantAdapter.notifyDataSetChanged();
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                     } else {
                         Toast.makeText(getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
@@ -114,6 +151,26 @@ public class HomeFragment extends Fragment {
 
 
     }
+
+
+    @Override
+    public void onRefresh() {
+
+        //modules.clear();
+        if (CheckNetwork.isInternetAvailable(getContext())) //returns true if internet available
+        {
+            refreshMenu();
+
+        } else {
+
+            Toast.makeText(getContext(), "Please check your Internet Connection and try Again", Toast.LENGTH_SHORT).show();
+            Intent in = new Intent(getContext(), InternetConnection.class);
+            startActivity(in);
+            getActivity().finish();
+        }
+
+    }
+
 
 
 }

@@ -1,4 +1,4 @@
-package com.instacloud.order2fse.ui.home;
+package com.instacloud.order2fse.ui.SellerList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,28 +12,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.instacloud.order2fse.R;
+import com.instacloud.order2fse.ui.home.DataRestoID;
 
 import java.util.ArrayList;
 
-public class ViewRestaurantAdapter extends RecyclerView.Adapter<ViewRestaurantAdapter.ViewHolder>{
+public class ViewRestaurantAdapterList extends RecyclerView.Adapter<ViewRestaurantAdapterList.ViewHolder>{
 
     private ArrayList<DataRestoID> mTestModel;
     private Context context;
 
-    public ViewRestaurantAdapter(Context context, ArrayList<DataRestoID> mTestModel) {
+    public ViewRestaurantAdapterList(Context context, ArrayList<DataRestoID> mTestModel) {
         this.mTestModel=mTestModel;
         this.context=context;
     }
 
     @NonNull
     @Override
-    public ViewRestaurantAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewRestaurantAdapterList.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.seller_list_row,viewGroup,false);
-        return new ViewRestaurantAdapter.ViewHolder(view);
+        return new ViewRestaurantAdapterList.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewRestaurantAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewRestaurantAdapterList.ViewHolder viewHolder, int i) {
 
         //viewHolder.cx_name.setText(mTestModel.get(i).getId());
         //viewHolder.cx_name2.setText(mTestModel.get(i).getAgentId());
@@ -70,7 +71,7 @@ public class ViewRestaurantAdapter extends RecyclerView.Adapter<ViewRestaurantAd
 
     @Override
     public int getItemCount() {
-        return 5;
+        return mTestModel.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

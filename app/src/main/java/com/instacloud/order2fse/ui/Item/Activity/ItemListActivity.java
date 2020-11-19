@@ -66,7 +66,7 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_list);
+        setContentView(R.layout.activity_item_list);
 
         Toolbar toolbar = findViewById(R.id.toolbarMenu);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
@@ -80,7 +80,7 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
 
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_item_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -105,31 +105,31 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
                 onBackPressed();
             }
         });
-//        swipeRefreshLayout.setOnRefreshListener(this);
-//        swipeRefreshLayout.post(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        swipeRefreshLayout.setRefreshing(true);
-//
-//                                        if (CheckNetwork.isInternetAvailable(MenuListActivity.this)) //returns true if internet available
-//                                        {
-//                                            refreshMenu();
-//
-//                                        } else {
-//
-//                                            Toast.makeText(MenuListActivity.this, "Please check your Internet Connection and try Again", Toast.LENGTH_SHORT).show();
-//                                            Intent in = new Intent(MenuListActivity.this, InternetConnection.class);
-//                                            startActivity(in);
-//                                            finish();
-//                                        }
-//
-//                                    }
-//                                }
-//        );
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+
+                                        if (CheckNetwork.isInternetAvailable(ItemListActivity.this)) //returns true if internet available
+                                        {
+                                            refreshMenu();
+
+                                        } else {
+
+                                            Toast.makeText(ItemListActivity.this, "Please check your Internet Connection and try Again", Toast.LENGTH_SHORT).show();
+                                            Intent in = new Intent(ItemListActivity.this, InternetConnection.class);
+                                            startActivity(in);
+                                            finish();
+                                        }
+
+                                    }
+                                }
+        );
 
 
 
-        refreshMenu();
+        //refreshMenu();
 
     }
 
@@ -156,6 +156,8 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
 
                             menuItemViewAdapter = new ItemViewAdapter(getApplicationContext(), (ArrayList<DataAddMenu>) message);
                             recyclerView.setAdapter(menuItemViewAdapter);
+                            recyclerView.invalidate();
+                            menuItemViewAdapter.notifyItemChanged(i);
                             menuItemViewAdapter.notifyDataSetChanged();
                             swipeRefreshLayout.setRefreshing(false);
                         }
