@@ -24,6 +24,7 @@ import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.model.MStatus;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient;
+import com.instacloud.order2fse.remote.RetrofitClient2;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -104,7 +105,7 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             progressBar();
-            Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+            Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
             APIService apiservice = retrofit.create(APIService.class);
             Call call = apiservice.windsFileCheck(cid);
             call.enqueue(new Callback() {
@@ -210,7 +211,7 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         progressBar();
         RequestBody custId = RequestBody.create(MediaType.parse("text/plain"), cid);
         RequestBody fN = RequestBody.create(MediaType.parse("text/plain"), fieldName);
-        Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.windsUploadByField(custId, fN, mbp);
         call.enqueue(new Callback() {

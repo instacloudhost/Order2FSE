@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "project_number": "1001710155350",
+    "firebase_url": "https://order2-mobile.firebaseio.com",
+    "project_id": "order2-mobile",
+    "storage_bucket": "order2-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001710155350:android:98a44597bb0ac49e586df7",
+        "android_client_info": {
+          "package_name": "com.instacloud.order2fse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001710155350-a3jpocfupdqfv9k6qsj6s5686lk3cn16.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.instacloud.order2fse",
+            "certificate_hash": "6e836c9272fb862c7d6fde16af5418d8df9b796b"
+          }
+        },
+        {
+          "client_id": "1001710155350-tggd87gvdusribjprolc9ucjem11jpui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMYtvJ0-blg0fLDIPdEgCRBpbP5TNS1xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001710155350-tggd87gvdusribjprolc9ucjem11jpui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001710155350:android:683a50c52c1a1570586df7",
+        "android_client_info": {
+          "package_name": "com.order2.delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001710155350-jkojq1v2lp8o162v8ia26rqp84stkrsb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.order2.delivery",
+            "certificate_hash": "f558afa82c812d1e4597fc79be590e4848fd9134"
+          }
+        },
+        {
+          "client_id": "1001710155350-tggd87gvdusribjprolc9ucjem11jpui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMYtvJ0-blg0fLDIPdEgCRBpbP5TNS1xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001710155350-tggd87gvdusribjprolc9ucjem11jpui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001710155350:android:41e02248c109f8c1586df7",
+        "android_client_info": {
+          "package_name": "com.order2.food_delivery_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001710155350-vq0s801drknl7f3j7gv06d43cpn57p4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.order2.food_delivery_app",
+            "certificate_hash": "f558afa82c812d1e4597fc79be590e4848fd9134"
+          }
+        },
+        {
+          "client_id": "1001710155350-tggd87gvdusribjprolc9ucjem11jpui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMYtvJ0-blg0fLDIPdEgCRBpbP5TNS1xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001710155350-tggd87gvdusribjprolc9ucjem11jpui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

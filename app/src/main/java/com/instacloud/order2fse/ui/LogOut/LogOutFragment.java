@@ -22,15 +22,15 @@ public class LogOutFragment extends Fragment {
     private LogOutViewModel mViewModel;
 
     private SharedPreferences token;
-    private String extremes = "extremeStorage";
+    String extremes = "extremeStorage";
 
-    private String tokenid, userType;
+    String tokenid, userType;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mViewModel =
                 ViewModelProviders.of(this).get(LogOutViewModel.class);
-        View root = inflater.inflate(R.layout.sign_in_fragment, container, false);
+        View root = inflater.inflate(R.layout.log_out_fragment, container, false);
 //        final TextView textView = root.findViewById(R.id.text_sign_in);
 //        mViewModel.getText().observe(this, new Observer<String>() {
 //            @Override
@@ -45,11 +45,12 @@ public class LogOutFragment extends Fragment {
 
         SharedPreferences.Editor editor = token.edit();
         editor.remove("token");
-        editor.apply();
+        editor.commit();
         Intent ma = new Intent(getContext(), LoginActivity.class);
-        Toast.makeText(getActivity(),"Signed Out",Toast.LENGTH_SHORT).show();
         startActivity(ma);
         getActivity().finish();
+
+        Toast.makeText(getActivity(),"Signed Out",Toast.LENGTH_SHORT).show();
 
         return root;
     }

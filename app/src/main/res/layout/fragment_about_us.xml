@@ -4,91 +4,283 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/aboutusdesign"
-    tools:context=".ForgetPasswordActivity">
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="50dp"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
 
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="35sp"
-            android:layout_margin="20dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Forgot Password">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
 
 
-        </TextView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorPrimary"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="40dp">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Enter the mobile number associated with this account"
-            android:textSize="14sp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="50dp">
 
 
-        </TextView>
+                    <ImageView
+                        android:id="@+id/about_usAgentPhoto"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/circleimage2">
+
+                    </ImageView>
+
+
+                    <TextView
+                        android:id="@+id/agent_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="20dp"
+                        android:gravity="center"
+                        android:text="DEMO USER"
+                        android:textColor="@color/white"
+                        android:textSize="24sp">
+
+
+                    </TextView>
+
+
+                    <TextView
+                        android:id="@+id/profile_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="K8 Kalinga Nagar, Shampur, Bhubaneswar, Odisha 751003"
+                        android:textColor="@color/white"
+                        android:textSize="14sp">
+
+
+                    </TextView>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="110dp"
+                    android:layout_height="130dp"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/totalReports"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center|bottom"
+                            android:text="0"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/totalReportsText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:text="Total Reports"
+                            android:textSize="14sp" />
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="110dp"
+                    android:layout_height="130dp"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/todaysReport"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center|bottom"
+                            android:text="0"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/todaysReportText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:text="Today's Reports"
+                            android:textSize="14sp" />
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="110dp"
+                    android:layout_height="130dp"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/rejectedReports"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center|bottom"
+                            android:text="0"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/rejectedReportsText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:text="Rejected Reports"
+                            android:textSize="14sp" />
+
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+
+                <ImageView
+                    android:id="@+id/verify_otp_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:text="Verify OTP"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff">
+
+
+                </ImageView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center|left"
+                    android:text="About"
+                    android:textColor="@color/black"
+                    android:textSize="20sp">
+
+
+                </TextView>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/about_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:gravity="center|left"
+                android:text="It all started back in 2014 when two BITS Pilani graduates,
+            \nSriharsha Majety and Nandan Reddy decided they wanted to make life easier by changing the way India eats - all with just a tap! With their idea of ’hyperlocal food delivery’,
+            \n all they needed was the tech to power it and were introduced to Rahul Jaimini, who brought this vision to life with the first website. And with this, Swiggy was launched as a food ordering &amp; delivery platform."
+                android:textColor="@color/black"
+                android:textSize="16sp">
+
+
+            </TextView>
 
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/forgetpassword">
 
-        </ImageView>
+        </LinearLayout>
 
 
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Mobile"
-            android:layout_gravity="center"
-            android:gravity=""
-            android:drawableLeft="@drawable/ic_phone_android_black_24dp"
-            android:drawablePadding="10dp"
-            android:inputType="number"
-            android:padding="10dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/edittext_design_shape2">
-
-        </EditText>
-
-
-        <Button
-            android:id="@+id/verify_otp_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:background="@drawable/edittext_design_shape"
-            android:text="Verify OTP"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:textColor="#ffffff"
-            android:textAllCaps="false">
-
-
-        </Button>
-
-
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

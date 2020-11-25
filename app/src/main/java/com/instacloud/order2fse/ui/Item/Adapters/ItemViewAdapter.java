@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.instacloud.order2fse.R;
@@ -69,6 +70,7 @@ public class ItemViewAdapter extends RecyclerView.Adapter<ItemViewAdapter.ViewHo
         public TextView orderId, orderDateTime, orderValue, orderValueText, sellerName, sellerMobile;
         public ImageView imageViewSeller,sellerStatus;
         public Button addExtraItemButton;// init the item view's
+        public CardView card_layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -82,6 +84,7 @@ public class ItemViewAdapter extends RecyclerView.Adapter<ItemViewAdapter.ViewHo
             sellerStatus = (ImageView) itemView.findViewById(R.id.sellerStatus);
             addExtraItemButton = (Button) itemView.findViewById(R.id.addExtraItemButton);
             imageViewSeller = (ImageView) itemView.findViewById(R.id.imageViewSeller);
+            card_layout = (CardView) itemView.findViewById(R.id.card_layout);
         }
     }
 }

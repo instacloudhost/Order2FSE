@@ -28,16 +28,16 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration,mAppBarConfiguration2;
-
     private ActionBar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        permit();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+       // getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         FloatingActionButton fab3 = findViewById(R.id.fab3);
         fab3.setOnClickListener(new View.OnClickListener() {
@@ -47,27 +47,16 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-       // navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_gifts);
-
-
-
+        navigation.setSelectedItemId(R.id.nav_home);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,R.id.nav_aboutUs, R.id.nav_signin,R.id.navigation_shop, R.id.navigation_gifts, R.id.navigation_insights)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_insurance,R.id.nav_ads,R.id.nav_bde_incentives,
+                R.id.nav_aboutUs, R.id.nav_logout,R.id.navigation_add_shop, R.id.nav_home, R.id.navigation_shop_list)
                 .setDrawerLayout(drawer)
                 .build();
-
-       permit();
-
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -75,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
     public void permit() {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
@@ -106,23 +93,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-
 }

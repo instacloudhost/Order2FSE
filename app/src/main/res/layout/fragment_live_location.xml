@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddSeller.Config.LiveLocationFragment">
+    tools:context=".ui.AddShop.Config.LiveLocationFragment">
 
     <Button
         android:id="@+id/btnGPSShowLocation"

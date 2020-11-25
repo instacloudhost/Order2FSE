@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient;
+import com.instacloud.order2fse.remote.RetrofitClient2;
 import com.instacloud.order2fse.ui.Item.Model.DataExtraGroup;
 import com.instacloud.order2fse.ui.Item.Model.ExtraGroupIDModel;
 import com.instacloud.order2fse.ui.Item.Model.ExtraItemModel;
@@ -39,14 +40,8 @@ public class ExtraItemActivity extends AppCompatActivity {
     ImageView extra_image;
     BetterSpinner extraFoodIdSpinner, extraGroupIdSpinner;
     TextView fooName;
-    String extraName;
-    String extraDescription;
-    String extraPrice;
-    String extraFoodId;
+    String extraName,extraDescription,extraPrice,extraFoodId, foodId,foodIDGet;
     String[] extraGroupId;
-
-    String foodId,foodIDGet;
-
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
 
@@ -79,26 +74,18 @@ public class ExtraItemActivity extends AppCompatActivity {
         //Demo TextView
         fooName = (TextView)findViewById(R.id.food_name);
         fooName.setText(foodId);
-
         foodIDGet = fooName.getText().toString().trim();
-
-
-
         //EditText
         extra_name = (EditText) findViewById(R.id.extra_name);
         extra_description = (EditText) findViewById(R.id.extra_description);
         extra_price = (EditText) findViewById(R.id.extra_price);
-
         //spinners
         extraFoodIdSpinner = (BetterSpinner) findViewById(R.id.extraFoodIdSpinner);
         extraGroupIdSpinner = (BetterSpinner) findViewById(R.id.extraGroupIdSpinner);
-
         //ImageViewFood
         extra_image = findViewById(R.id.extra_image);
-
         //AddMenuButton
         add_extra_menu_Button = (Button) findViewById(R.id.add_extra_menu_Button);
-
         add_extra_menu_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +146,7 @@ public class ExtraItemActivity extends AppCompatActivity {
 
     public void callCategory() {
 
-        Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.addExtraGroupID();
 
@@ -208,7 +195,7 @@ public class ExtraItemActivity extends AppCompatActivity {
     }
 
     public void addExtra() {
-        Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.addExtraItems(extraName, extraDescription,extraPrice,foodIDGet,extraGroupId);
 

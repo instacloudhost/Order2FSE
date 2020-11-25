@@ -22,6 +22,7 @@ import com.instacloud.order2fse.Util.CheckNetwork;
 import com.instacloud.order2fse.Util.InternetConnection;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient;
+import com.instacloud.order2fse.remote.RetrofitClient2;
 import com.instacloud.order2fse.ui.Item.Model.AddMenuModel;
 import com.instacloud.order2fse.ui.Item.Model.DataAddMenu;
 import com.instacloud.order2fse.ui.Item.Adapters.ItemAdapter;
@@ -70,22 +71,14 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
 
         Toolbar toolbar = findViewById(R.id.toolbarMenu);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-
         setSupportActionBar(toolbar);
         mTitle.setText("Item List");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         token = getSharedPreferences(extremes,
                 Context.MODE_PRIVATE);
-
-
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_item_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-       // menuListModels = new ArrayList<>();
-
         Intent intent = getIntent();
         restaurantId = intent.getStringExtra("id");
         addMenuButton =(Button) findViewById(R.id.addMenuButton);
@@ -97,7 +90,6 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
                 finish();
             }
         });
-
         ImageView button = (ImageView) findViewById(R.id.backbutton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,14 +119,9 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
                                 }
         );
 
-
-
-        //refreshMenu();
-
     }
-
     private void refreshMenu() {
-        Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.addMenuView(token.getString("restaurant_id",""));
 
@@ -147,8 +134,6 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
                         List<DataAddMenu> message = response.body().getData();
 
                         for (int i = 0; i < message.size(); i++){
-
-
                             foodId = String.valueOf(message.get(i).getId());
                             SharedPreferences.Editor editor = token.edit();
                             editor.putString("food_id", String.valueOf(foodId));
@@ -197,8 +182,6 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
 
     @Override
     public void onRefresh() {
-
-        //modules.clear();
         if (CheckNetwork.isInternetAvailable(ItemListActivity.this)) //returns true if internet available
         {
             refreshMenu();

@@ -12,16 +12,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.instacloud.order2fse.MainActivity;
 import com.instacloud.order2fse.R;
-import com.instacloud.order2fse.Util.AppPreferences;
 import com.instacloud.order2fse.model.LoginModel;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient;
 import com.instacloud.order2fse.ui.Item.Activity.ItemListActivity;
+import com.instacloud.order2fse.ui.ShopDetails.ShopFormsActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,10 +30,10 @@ import retrofit2.Retrofit;
 public class LoginActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
-    private static final String TAG = "LoginActivity";
     private EditText email_id, password;
     private SharedPreferences token;
-    private String extremes = "extremeStorage", type;
+    private String extremes = "extremeStorage";
+    private String type;
     Button btn_login;
     String mail, pass;
 
@@ -48,9 +47,12 @@ public class LoginActivity extends AppCompatActivity {
 
         String tokenid = token.getString("token", "");
         Log.d("Response: ", tokenid);
+
+
         if (token.contains("token")) {
-            Intent dashboard = new Intent(getBaseContext(), MainActivity.class);
+            Intent dashboard = new Intent(LoginActivity.this, ItemListActivity.class);
             startActivity(dashboard);
+           // Toast.makeText(getApplicationContext(), "Successfully LoggedIn", Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -67,7 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 getLoginDetails();
-               // progressBar();
+
+
+
 
             }
         });
@@ -100,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getLoginDetails() {
 
+        progressBar();
         Retrofit retrofit = RetrofitClient.getRetrofitAuth();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.checkUser(mail, pass, "fse");
@@ -110,25 +115,26 @@ public class LoginActivity extends AppCompatActivity {
                     LoginModel loginModel = (LoginModel) response.body();
                     Log.d("Response: ", String.valueOf(loginModel.getToken()));
                     if (loginModel.getStatus().equals("true")) {
-                       // progressDialog.cancel();
+                       progressDialog.cancel();
 
                         SharedPreferences.Editor editor = token.edit();
                         editor.putString("token", loginModel.getToken());
-                        editor.commit();
-                        Toast.makeText(getApplicationContext(), "Successfully LoggedIn", Toast.LENGTH_LONG).show();
-                        Intent main = new Intent(getBaseContext(), MainActivity.class);
+                        editor.apply();
+
+                        Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_LONG).show();
+                        Intent main = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(main);
                         finish();
                     } else {
-                      //  progressDialog.cancel();
-                        Toast.makeText(getApplicationContext(),"Wrong Credentials", Toast.LENGTH_LONG).show();
+                       progressDialog.cancel();
+                        Toast.makeText(LoginActivity.this,"Wrong Credentials", Toast.LENGTH_LONG).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.d("Error: ", t.getMessage());
             }
         });
@@ -136,23 +142,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void progressBar() {
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setTitle("Authenticating");
         progressDialog.setMessage("Loading...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMax(50);
         progressDialog.show();
-        progressDialog.setCancelable(false);
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                progressDialog.dismiss();
-            }
-        }).start();
+
     }
 
 }

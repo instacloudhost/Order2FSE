@@ -19,10 +19,14 @@ import android.widget.Toast;
 
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.remote.APIService;
-import com.instacloud.order2fse.remote.RetrofitClient;
+import com.instacloud.order2fse.remote.RetrofitClient2;
 import com.instacloud.order2fse.ui.Item.Model.AddMenuModel;
 import com.instacloud.order2fse.ui.Item.Model.CategoryModel;
 import com.instacloud.order2fse.ui.Item.Model.Datum;
+import com.instacloud.order2fse.ui.Item.Model.ProductsModel.ItemDatum;
+import com.instacloud.order2fse.ui.Item.Model.ProductsModel.ItemModel;
+import com.instacloud.order2fse.ui.Item.Model.SubCategoryModel.SubCategoryDatum;
+import com.instacloud.order2fse.ui.Item.Model.SubCategoryModel.SubCategoryModel;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.List;
@@ -35,19 +39,19 @@ import retrofit2.Retrofit;
 public class AddItemActivity extends AppCompatActivity {
 
     EditText item_name, item_price, item_discount, item_description, item_Specification, item_package_count, item_weight;
-    BetterSpinner unitSpinner, mainCategorySpinner,itemCategorySpinner,itemsSpinner;
+    BetterSpinner unitSpinner, mainCategorySpinner, itemCategorySpinner, itemsSpinner;
     ImageView item_image;
     Button add_items_Button;
-    String itemName,itemPrice,itemDiscount,itemDescription,itemIngredients,itemUnit,itemPackageCount,itemWeight;
+    String itemName, itemPrice, itemDiscount, itemDescription, itemIngredients, itemUnit, itemPackageCount, itemWeight;
     String restaurantsId;
-    String[] mainCategoryId,itemCategory,items;
-    String[] UNITS = {"KG","LITERS","PIECES","PACKET"};
-    String[] ItemCategory = {"INDIAN","RICE","SEAFOOD","BEVERAGES","TANDOOR",
-            "SALAD/PAPAD","BREAKFAST","DESSERTS","BREAD BASKET","SOUP","STARTERS","APPETIZERS","NOODLES"};
-    String[] It = {"KG","LITERS","PIECES","PACKET"};
+    String mainCategoryId, itemCategoryId, itemsId;
+    String[] UNITS = {"KG", "LITERS", "PIECES", "PACKET"};
+    String[] ItemCategory = {"INDIAN", "RICE", "SEAFOOD", "BEVERAGES", "TANDOOR",
+            "SALAD/PAPAD", "BREAKFAST", "DESSERTS", "BREAD BASKET", "SOUP", "STARTERS", "APPETIZERS", "NOODLES"};
+    String[] It = {"KG", "LITERS", "PIECES", "PACKET"};
     private String[] Items;
-    private ArrayAdapter<String> adapterItemCategory,adapterItems;
-    String categoryName;
+    private ArrayAdapter<String> adapterItemCategory, adapterItems;
+    String itemsName;
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
 
@@ -82,22 +86,7 @@ public class AddItemActivity extends AppCompatActivity {
         item_weight = (EditText) findViewById(R.id.item_weight);
 
         //spinners
-        itemCategorySpinner = (BetterSpinner) findViewById(R.id.itemCategorySpinner);
-        itemCategorySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Getting State", parent.getItemAtPosition(position).toString());
-                String items = parent.getItemAtPosition(position).toString();
-                district(items);
-            }
-        });
-        adapterItemCategory = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_dropdown_item_1line, ItemCategory);
-        itemCategorySpinner.setAdapter(adapterItemCategory);
-
-        String[] ITEMS2 = {"No Items"};
-        itemsSpinner = (BetterSpinner) findViewById(R.id.itemsSpinner);
-        adapterItems = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_dropdown_item_1line, ITEMS2);
-        itemsSpinner.setAdapter(adapterItems);
+        itemCategorySpinner = (BetterSpinner) findViewById(R.id.subCategorySpinner);
 
         unitSpinner = (BetterSpinner) findViewById(R.id.unitSpinner);
 
@@ -127,16 +116,16 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
 
+        callMainCategory();
+        callSubCategory();
+        //callProducts(itemCategoryId);
 
-
-
-        callCategory();
     }
 
 
-    public void callCategory() {
+    public void callMainCategory() {
 
-        Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.addCategory();
 
@@ -149,7 +138,7 @@ public class AddItemActivity extends AppCompatActivity {
                         List<Datum> categoryModels = response.body().getData();
 
 
-                        showListinSpinner(categoryModels);
+                        showListInSpinner(categoryModels);
                     } else {
                         Toast.makeText(AddItemActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
                     }
@@ -164,9 +153,39 @@ public class AddItemActivity extends AppCompatActivity {
 
     }
 
+    public void callSubCategory() {
+
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
+        APIService apiservice = retrofit.create(APIService.class);
+        Call call = apiservice.addSubCategory();
+
+        call.enqueue(new Callback<SubCategoryModel>() {
+
+            @Override
+            public void onResponse(Call<SubCategoryModel> call, Response<SubCategoryModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getSuccess().equals(true)) {
+                        List<SubCategoryDatum> subCategoryDatumList = response.body().getData();
+
+
+                        showListItemCategoryInSpinner(subCategoryDatumList);
+                    } else {
+                        Toast.makeText(AddItemActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SubCategoryModel> call, Throwable t) {
+                Toast.makeText(AddItemActivity.this, "Failure " + t, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 
     public void addMenu() {
-        Retrofit retrofit = RetrofitClient.getRetrofitOrder();
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.addMenu(itemName, itemPrice, itemDiscount, itemDescription,
                 itemIngredients, itemWeight, itemPackageCount, itemUnit, "true", "true", token.getString("restaurant_id", ""), mainCategoryId);
@@ -182,7 +201,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                     } else {
                         //   progressDialog.cancel();
-                       //  Toast.makeText(AddMenuActivity.this, addMenuModel.getData(), Toast.LENGTH_LONG).show();
+                        //  Toast.makeText(AddMenuActivity.this, addMenuModel.getData(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -199,27 +218,126 @@ public class AddItemActivity extends AppCompatActivity {
 
 
     //Our method to show list
-    private void showListinSpinner(List<Datum> categoryModels) {
+    private void showListInSpinner(List<Datum> categoryModels) {
         //String array to store all the book names
         String[] items = new String[categoryModels.size()];
-        mainCategoryId = new String[categoryModels.size()];
 
         //Traversing through the whole list to get all the names
         for (int i = 0; i < categoryModels.size(); i++) {
             //Storing names to string array
             items[i] = categoryModels.get(i).getName();
-            mainCategoryId[i] = String.valueOf(categoryModels.get(i).getId());
         }
 
-        //Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+        mainCategorySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Getting State", parent.getItemAtPosition(position).toString());
+                String count = parent.getItemAtPosition(position).toString();
+                mainCategoryId = String.valueOf(categoryModels.get(position).getId());
+
+                // district(items);
+            }
+        });
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_dropdown_item_1line, items);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_dropdown_item_1line, mainCategoryId);
-        //setting adapter to spinner
+
         mainCategorySpinner.setAdapter(adapter);
-        //categorySpinner.setAdapter(adapter2);
-        //Creating an array adapter for list view
+
 
     }
+
+    //Our method to show list
+    private void showListItemCategoryInSpinner(List<SubCategoryDatum> categoryModels) {
+        //String array to store all the book names
+        String[] itemsSubCategory = new String[categoryModels.size()];
+
+        //Traversing through the whole list to get all the names
+        for (int i = 0; i < categoryModels.size(); i++) {
+            //Storing names to string array
+            itemsSubCategory[i] = categoryModels.get(i).getName();
+        }
+
+        itemCategorySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Getting State", parent.getItemAtPosition(position).toString());
+                String count = parent.getItemAtPosition(position).toString();
+                itemCategoryId = String.valueOf(categoryModels.get(position).getId());
+                callProducts(itemCategoryId);
+            }
+        });
+        adapterItemCategory = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_dropdown_item_1line, itemsSubCategory);
+        itemCategorySpinner.setAdapter(adapterItemCategory);
+
+    }
+
+    public void callProducts(String itemCategoryId) {
+
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
+        APIService apiservice = retrofit.create(APIService.class);
+        Call call = apiservice.addProducts(itemCategoryId);
+
+        call.enqueue(new Callback<ItemModel>() {
+
+            @Override
+            public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getSuccess().equals(true)) {
+                        List<ItemDatum> itemDatumList = response.body().getData();
+
+
+                        showListItemsInSpinner(itemDatumList);
+                    } else {
+                        Toast.makeText(AddItemActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemModel> call, Throwable t) {
+                Toast.makeText(AddItemActivity.this, "Failure " + t, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    //Our method to show list
+    private void showListItemsInSpinner(List<ItemDatum> itemDatumList) {
+        //String array to store all the book names
+        String[] itemsProduct = new String[itemDatumList.size()];
+
+        //Traversing through the whole list to get all the names
+        for (int i = 0; i < itemDatumList.size(); i++) {
+            //Storing names to string array
+            itemsProduct[i] = itemDatumList.get(i).getName();
+        }
+
+
+        String[] ITEMS2 = {"No Items"};
+        itemsSpinner = (BetterSpinner) findViewById(R.id.itemsSpinner);
+        adapterItems = new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_dropdown_item_1line, itemsProduct);
+        itemsSpinner.setAdapter(adapterItems);
+
+
+        itemsSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Getting State", parent.getItemAtPosition(position).toString());
+                String productName = parent.getItemAtPosition(position).toString();
+                product(productName);
+            }
+        });
+
+
+    }
+
+    private void product(String productName) {
+
+        item_name.setText(productName);
+
+    }
+
 
     public Boolean validate() {
         boolean valid = true;
@@ -232,10 +350,6 @@ public class AddItemActivity extends AppCompatActivity {
         itemUnit = unitSpinner.getText().toString().trim();
         itemPackageCount = item_package_count.getText().toString().trim();
         itemWeight = item_weight.getText().toString().trim();
-
-
-
-
 
         if (itemName.trim().isEmpty()) {
             item_name.setError("Enter Item Name");
@@ -305,7 +419,7 @@ public class AddItemActivity extends AppCompatActivity {
         BetterSpinner spinnerItems = (BetterSpinner) findViewById(R.id.itemsSpinner);
         System.out.println(str);
         switch (str) {
-            
+
             case "INDIAN":
                 Items = new String[]{"Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Prakasam", "Srikakulam", "Sri Potti Sriramulu Nellore", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR District, Kadapa (Cuddapah)"};
                 adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
@@ -380,13 +494,27 @@ public class AddItemActivity extends AppCompatActivity {
                 break;
 
         }
+
+
+//
+//        spinnerItems.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//           @Override
+//           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//               Object item = parent.getItemAtPosition(position);
+//
+//
+//
+//           }
+//
+//           @Override
+//           public void onNothingSelected(AdapterView<?> parent) {
+//
+//           }
+//       });
     }
 
-
-
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         // code here to show dialog
 
         Intent intentBack = new Intent(AddItemActivity.this, ItemListActivity.class);

@@ -1,16 +1,17 @@
 package com.instacloud.order2fse.remote;
 
 
-
 import com.instacloud.order2fse.model.MStatus;
 import com.instacloud.order2fse.model.LoginModel;
-import com.instacloud.order2fse.ui.AddSeller.Model.AddCustomerModel;
-import com.instacloud.order2fse.ui.AddSeller.Model.AddManagerModel;
+import com.instacloud.order2fse.ui.AddShop.Model.AddCustomerModel;
+import com.instacloud.order2fse.ui.AddShop.Model.AddManagerModel;
 import com.instacloud.order2fse.ui.Item.Model.AddMenuModel;
 import com.instacloud.order2fse.ui.Item.Model.CategoryModel;
 import com.instacloud.order2fse.ui.Item.Model.ExtraGroupIDModel;
 import com.instacloud.order2fse.ui.Item.Model.ExtraItemModel;
-import com.instacloud.order2fse.ui.home.RestoByAgentIdModel;
+import com.instacloud.order2fse.ui.Item.Model.ProductsModel.ItemModel;
+import com.instacloud.order2fse.ui.Item.Model.SubCategoryModel.SubCategoryModel;
+import com.instacloud.order2fse.ui.home.ShopByAgentIdModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -21,6 +22,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface APIService {
     /*
@@ -36,48 +40,50 @@ public interface APIService {
     @FormUrlEncoded
     Call<AddCustomerModel> addCustomer(@Field("agent_id") String agent_id,
                                        @Field("name") String shopname,
-                           @Field("description") String description,
-                           @Field("address") String address,
-                           @Field("latitude") String latitude,
-                           @Field("longitude") String longitude,
-                           @Field("phone") String phone,
-                           @Field("mobile") String mobile,
-                           @Field("information") String information,
-                           @Field("admin_commission") String admin_commission,
-                           @Field("default_tax") String default_tax,
-                           @Field("delivery_range") String delivaryrange,
-                           @Field("default_tax") String default_tax2,
-                           @Field("available_for_delivery") String availablefordelivery,
-                           @Field("closed") String closed,
-                           @Field("admin_commission") String admin_commission2,
-                           @Field("information") String information2,
-                           @Field("active") String active
+                                       @Field("description") String description,
+                                       @Field("address") String address,
+                                       @Field("latitude") String latitude,
+                                       @Field("longitude") String longitude,
+                                       @Field("phone") String phone,
+                                       @Field("mobile") String mobile,
+                                       @Field("information") String information,
+                                       @Field("admin_commission") String admin_commission,
+                                       @Field("default_tax") String default_tax,
+                                       @Field("delivery_range") String delivaryrange,
+                                       @Field("default_tax") String default_tax2,
+                                       @Field("available_for_delivery") String availablefordelivery,
+                                       @Field("closed") String closed,
+                                       @Field("admin_commission") String admin_commission2,
+                                       @Field("information") String information2,
+                                       @Field("active") String active
 
-                           );
-
+    );
 
     @POST("/api/manager")
     @FormUrlEncoded
     Call<AddManagerModel> addManager(@Field("name") String name,
-                                    @Field("email") String email,
-                                    @Field("password") String password);
-
-
-
+                                     @Field("email") String email,
+                                     @Field("password") String password);
 
     @POST("/api/windsuploadbyfield")
     @Multipart
-    Call <MStatus> windsUploadByField(@Part("customer_id") RequestBody customerID,
-                                      @Part("field_name") RequestBody fieldName,
-                                      @Part MultipartBody.Part str);
+    Call<MStatus> windsUploadByField(@Part("customer_id") RequestBody customerID,
+                                     @Part("field_name") RequestBody fieldName,
+                                     @Part MultipartBody.Part str);
 
     @POST("/api/windsfilecheck")
     @FormUrlEncoded
-    Call <MStatus> windsFileCheck(@Field("customer_id") String cid);
-
+    Call<MStatus> windsFileCheck(@Field("customer_id") String cid);
 
     @GET("/api/categories")
     Call<CategoryModel> addCategory();
+
+    @GET("api/itemcategories")
+    Call<SubCategoryModel> addSubCategory();
+
+    @GET("/api/items")
+    Call<ItemModel> addProducts(@Query("item_category") String ic_id);
+
     @GET("/api/extra_groups")
     Call<ExtraGroupIDModel> addExtraGroupID();
 
@@ -88,19 +94,17 @@ public interface APIService {
     @POST("/api/foods")
     @FormUrlEncoded
     Call<AddMenuModel> addMenu(@Field("name") String name,
-                                   @Field("price") String price,
-                                   @Field("discount_price") String discount_price,
-                                   @Field("description") String description,
-                                   @Field("ingredients") String ingredients,
-                                   @Field("weight") String weight,
-                                   @Field("package_items_count") String package_items_count,
-                                   @Field("unit") String unit,
-                                   @Field("featured") String featured,
-                                   @Field("deliverable") String deliverable,
-                                   @Field("restaurant_id") String restaurant_id,
-                                   @Field("category_id") String[] category_id
-
-
+                               @Field("price") String price,
+                               @Field("discount_price") String discount_price,
+                               @Field("description") String description,
+                               @Field("ingredients") String ingredients,
+                               @Field("weight") String weight,
+                               @Field("package_items_count") String package_items_count,
+                               @Field("unit") String unit,
+                               @Field("featured") String featured,
+                               @Field("deliverable") String deliverable,
+                               @Field("restaurant_id") String restaurant_id,
+                               @Field("category_id") String category_id
     );
 
     @POST("/api/extras")
@@ -112,20 +116,14 @@ public interface APIService {
                                        @Field("extra_group_id") String[] extra_group_id
     );
 
-
-
     @POST("/api/restaurantbyagentid")
     @FormUrlEncoded
-    Call<RestoByAgentIdModel> getRestaurantByAgentId(@Field("name") String name,
-                                                     @Field("description") String description,
-                                                     @Field("price") String price,
-                                                     @Field("food_id") String food_id,
-                                                     @Field("agent_id") String agentId);//import okhttp3.ResponseBody;
+    Call<ShopByAgentIdModel> getRestaurantByAgentId(@Field("name") String name,
+                                                    @Field("description") String description,
+                                                    @Field("price") String price,
+                                                    @Field("food_id") String food_id,
+                                                    @Field("agent_id") String agentId);//import okhttp3.ResponseBody;
 }
-
-
-
-
 
 
 //    /*

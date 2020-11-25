@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_shop"
+        android:id="@+id/navigation_add_shop"
         android:icon="@drawable/ic_baseline_person_add_24"
         android:title=""
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/navigation_gifts"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_baseline_home_24"
         android:title=""
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/navigation_insights"
+        android:id="@+id/navigation_shop_list"
         android:icon="@drawable/ic_baseline_list_alt_24"
         android:title=""
         app:showAsAction="ifRoom" />

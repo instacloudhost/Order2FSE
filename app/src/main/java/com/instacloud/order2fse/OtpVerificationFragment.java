@@ -10,7 +10,7 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.instacloud.order2fse.ui.AddSeller.Fragment.AddSellerFragment;
+import com.instacloud.order2fse.ui.AddShop.Fragment.AddShopFragment;
 
 
 /**
@@ -41,7 +41,7 @@ public class OtpVerificationFragment extends Fragment {
             public void onClick(View v) {
 
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.nav_host_fragment,new AddSellerFragment());
+                fr.replace(R.id.nav_host_fragment,new AddShopFragment());
                 fr.commit();
             }
         });

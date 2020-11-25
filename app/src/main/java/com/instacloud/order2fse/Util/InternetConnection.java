@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.ui.Item.Activity.ItemListActivity;
+import com.instacloud.order2fse.ui.Login.LoginActivity;
 
 
 public class InternetConnection extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class InternetConnection extends AppCompatActivity {
             public void onClick(View view) {
                 if(CheckNetwork.isInternetAvailable(InternetConnection.this)) //returns true if internet available
                 {
-                    Intent in = new Intent(InternetConnection.this, ItemListActivity.class);
+                    Intent in = new Intent(InternetConnection.this, LoginActivity.class);
                     Toast.makeText(InternetConnection.this,"You are ONLINE",Toast.LENGTH_SHORT).show();
                     startActivity(in);
                     finish();

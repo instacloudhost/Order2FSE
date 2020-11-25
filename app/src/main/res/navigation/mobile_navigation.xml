@@ -5,17 +5,36 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
 
+<!--    <fragment-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:name="com.instacloud.order2fse.ui.home.HomeFragment"-->
+<!--        android:label="@string/menu_home"-->
+<!--        tools:layout="@layout/fragment_home" />-->
+
+
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.instacloud.order2fse.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_insurance"
+        android:name="com.instacloud.order2fse.ui.Insurance.InsuranceFragment"
+        android:label="@string/menu_insurance"
+        tools:layout="@layout/insurance_fragment" />
+
+    <fragment
+        android:id="@+id/nav_bde_incentives"
+        android:name="com.instacloud.order2fse.ui.Incentives.BDEIncentivesFragment"
+        android:label="@string/menu_incentives"
+        tools:layout="@layout/b_d_e_incentives_fragment" />
+
+    <fragment
+        android:id="@+id/nav_ads"
+        android:name="com.instacloud.order2fse.ui.Advertisement.AdvertisementFragment"
+        android:label="@string/menu_advertisement"
+        tools:layout="@layout/advertisement_fragment" />
 
     <fragment
         android:id="@+id/nav_aboutUs"
         android:name="com.instacloud.order2fse.ui.AboutUs.AboutUsFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/menu_aboutUs"
+        tools:layout="@layout/fragment_about_us" />
 
 
     <fragment
@@ -25,25 +44,25 @@
         tools:layout="@layout/mobile_verification_fragment" />
 
     <fragment
-        android:id="@+id/nav_signin"
+        android:id="@+id/nav_logout"
         android:name="com.instacloud.order2fse.ui.LogOut.LogOutFragment"
-        android:label="@string/menu_signin"
-        tools:layout="@layout/sign_in_fragment" />
+        android:label="@string/menu_logout"
+        tools:layout="@layout/log_out_fragment" />
 
     <fragment
-        android:id="@+id/navigation_shop"
-        android:name="com.instacloud.order2fse.ui.AddSeller.Fragment.AddSellerFragment"
-        android:label="@string/menu_signin"
+        android:id="@+id/navigation_add_shop"
+        android:name="com.instacloud.order2fse.ui.AddShop.Fragment.AddShopFragment"
+        android:label="@string/menu_Add_shop"
         tools:layout="@layout/fragment_add_seller" />
 
     <fragment
-        android:id="@+id/navigation_gifts"
+        android:id="@+id/nav_home"
         android:name="com.instacloud.order2fse.ui.home.HomeFragment"
-        android:label="@string/menu_signin"
+        android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/navigation_insights"
-        android:name="com.instacloud.order2fse.ui.SellerList.SellerListFragment"
-        android:label="@string/menu_signin"
-        tools:layout="@layout/fragment_add_seller" />
+        android:id="@+id/navigation_shop_list"
+        android:name="com.instacloud.order2fse.ui.SellerList.ShopListFragment"
+        android:label="@string/menu_shop_list"
+        tools:layout="@layout/fragment_seller_list" />
 </navigation>
