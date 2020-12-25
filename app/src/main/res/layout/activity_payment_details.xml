@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.ShopDetails.PaymentGatewayActivity">
+
+
+    <include layout="@layout/toolbar">
+
+    </include>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/shop_name"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_person_black_24dp"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:visibility="gone"-->
+        <!--                android:hint="Shop Name*"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </TextView>-->
+
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/gst_number"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_person_black_24dp"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:hint="GSTIN"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/pan_number"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_baseline_alternate_email_24"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:hint="PAN Card Number*"-->
+        <!--                android:inputType="textEmailAddress"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/voter_id_ADDHAAR_number"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_phone_android_black_24dp"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:hint="VOTER ID or ADDHAAR No*"-->
+        <!--                android:inputType="number"-->
+        <!--                android:maxLines="10"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/password"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_lock_black_24dp"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:visibility="gone"-->
+        <!--                android:hint="Password"-->
+        <!--                android:inputType="textPassword"-->
+        <!--                android:maxLines="8"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/account_holder_name"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_phone_android_black_24dp"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:hint="Account Holder Name*"-->
+        <!--                android:inputType="number"-->
+        <!--                android:maxLines="8"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/account_number"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_baseline_location_on_24"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:hint="Account Number*"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/ifsc_code"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_baseline_location_on_24"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:hint="IFSC Code*"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/bank_name"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_margin="10dp"-->
+        <!--                android:background="@drawable/edittext_design_shape2"-->
+        <!--                android:drawableLeft="@drawable/ic_baseline_location_on_24"-->
+        <!--                android:drawablePadding="10dp"-->
+        <!--                android:hint="Bank Name*"-->
+        <!--                android:padding="10dp"-->
+        <!--                android:textSize="14sp">-->
+
+        <!--            </EditText>-->
+
+
+        <Button
+            android:id="@+id/online_payment_btn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edittext_design_shape"
+            android:text="Online Payment"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/deduction_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edittext_design_shape"
+            android:text="Deduction"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/cash_payment_btn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edittext_design_shape"
+            android:text="Cash"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp">
+
+        </Button>
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

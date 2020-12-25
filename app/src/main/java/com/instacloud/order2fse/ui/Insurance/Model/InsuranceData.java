@@ -1,9 +1,11 @@
-package com.instacloud.order2fse.ui.AddShop.Model;
+package com.instacloud.order2fse.ui.Insurance.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Role {
+import java.util.List;
+
+public class InsuranceData {
 
     @SerializedName("id")
     @Expose
@@ -11,24 +13,18 @@ public class Role {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("guard_name")
+    @SerializedName("price")
     @Expose
-    private String guardName;
-    @SerializedName("default")
-    @Expose
-    private Integer _default;
+    private Integer price;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
-    @SerializedName("deleted_at")
+    @SerializedName("custom_fields")
     @Expose
-    private Object deletedAt;
-    @SerializedName("pivot")
-    @Expose
-    private Pivot pivot;
+    private List<Object> customFields = null;
 
     public Integer getId() {
         return id;
@@ -46,20 +42,12 @@ public class Role {
         this.name = name;
     }
 
-    public String getGuardName() {
-        return guardName;
+    public Integer getPrice() {
+        return price;
     }
 
-    public void setGuardName(String guardName) {
-        this.guardName = guardName;
-    }
-
-    public Integer getDefault() {
-        return _default;
-    }
-
-    public void setDefault(Integer _default) {
-        this._default = _default;
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public String getCreatedAt() {
@@ -78,19 +66,11 @@ public class Role {
         this.updatedAt = updatedAt;
     }
 
-    public Object getDeletedAt() {
-        return deletedAt;
+    public List<Object> getCustomFields() {
+        return customFields;
     }
 
-    public void setDeletedAt(Object deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
-    public Pivot getPivot() {
-        return pivot;
-    }
-
-    public void setPivot(Pivot pivot) {
-        this.pivot = pivot;
+    public void setCustomFields(List<Object> customFields) {
+        this.customFields = customFields;
     }
 }

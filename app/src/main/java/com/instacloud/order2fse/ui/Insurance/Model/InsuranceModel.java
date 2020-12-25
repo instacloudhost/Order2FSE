@@ -1,16 +1,16 @@
-package com.instacloud.order2fse.ui.AddShop.Model;
-
+package com.instacloud.order2fse.ui.Insurance.Model;
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AddManagerModel {
+public class InsuranceModel {
 
     @SerializedName("success")
     @Expose
     private Boolean success;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private List<InsuranceData> data = null;
     @SerializedName("message")
     @Expose
     private String message;
@@ -23,11 +23,11 @@ public class AddManagerModel {
         this.success = success;
     }
 
-    public Data getData() {
+    public List<InsuranceData> getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(List<InsuranceData> data) {
         this.data = data;
     }
 
@@ -38,6 +38,5 @@ public class AddManagerModel {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
 }

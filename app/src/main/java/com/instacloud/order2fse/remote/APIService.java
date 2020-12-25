@@ -3,6 +3,7 @@ package com.instacloud.order2fse.remote;
 
 import com.instacloud.order2fse.model.MStatus;
 import com.instacloud.order2fse.model.LoginModel;
+import com.instacloud.order2fse.ui.AddShop.Fragment.ServicesModel;
 import com.instacloud.order2fse.ui.AddShop.Model.AddCustomerModel;
 import com.instacloud.order2fse.ui.AddShop.Model.AddManagerModel;
 import com.instacloud.order2fse.ui.Item.Model.AddMenuModel;
@@ -11,6 +12,7 @@ import com.instacloud.order2fse.ui.Item.Model.ExtraGroupIDModel;
 import com.instacloud.order2fse.ui.Item.Model.ExtraItemModel;
 import com.instacloud.order2fse.ui.Item.Model.ProductsModel.ItemModel;
 import com.instacloud.order2fse.ui.Item.Model.SubCategoryModel.SubCategoryModel;
+import com.instacloud.order2fse.ui.Login.Model.Order2LoginModel;
 import com.instacloud.order2fse.ui.home.ShopByAgentIdModel;
 
 import okhttp3.MultipartBody;
@@ -30,15 +32,29 @@ public interface APIService {
     /*
         Check users
      */
+//    @POST("/api/login")
+//    @FormUrlEncoded
+//    Call<LoginModel> checkUser(@Field("username") String username,
+//                               @Field("password") String password,
+//                               @Field("type") String type);
+
     @POST("/api/login")
     @FormUrlEncoded
-    Call<LoginModel> checkUser(@Field("username") String username,
-                               @Field("password") String password,
-                               @Field("type") String type);
+    Call<Order2LoginModel> checkUserOrder2(@Field("email") String email,
+                                     @Field("password") String password,
+                                     @Field("device_token") String device_token);
 
-    @POST("/api/restaurants")
+
+    @POST("/api/tracking")
     @FormUrlEncoded
-    Call<AddCustomerModel> addCustomer(@Field("agent_id") String agent_id,
+    Call <MStatus> tracking(@Field("latitude") String lat,
+                            @Field("longitude") String longi,
+                            @Field("agent_id") String agents);
+
+    @POST("/api/manager/restaurants")
+    @FormUrlEncoded
+    Call<AddCustomerModel> addCustomer(@Query("api_token") String api_token,
+                                       @Field("agent_id") String agent_id,
                                        @Field("name") String shopname,
                                        @Field("description") String description,
                                        @Field("address") String address,
@@ -55,15 +71,26 @@ public interface APIService {
                                        @Field("closed") String closed,
                                        @Field("admin_commission") String admin_commission2,
                                        @Field("information") String information2,
-                                       @Field("active") String active
+                                       @Field("active") String active,
+                                       @Field("state") String state,
+                                       @Field("city") String city,
+                                       @Field("voter_aadhaar") String voterAadahaar,
+                                       @Field("service") int service,
+                                       @Field("pan") String panNumber,
+                                       @Field("min_order_value") String minimumOrders,
+                                       @Field("ifsc") String ifsc,
+                                       @Field("gst") String gstin,
+                                       @Field("bank_name") String bankname,
+                                       @Field("account_no") String accountno,
+                                       @Field("account_name") String accountnam
+
 
     );
 
-    @POST("/api/manager")
+    @POST("/api/manager/register")
     @FormUrlEncoded
     Call<AddManagerModel> addManager(@Field("name") String name,
-                                     @Field("email") String email,
-                                     @Field("password") String password);
+                                     @Field("email") String email);
 
     @POST("/api/windsuploadbyfield")
     @Multipart
@@ -74,6 +101,9 @@ public interface APIService {
     @POST("/api/windsfilecheck")
     @FormUrlEncoded
     Call<MStatus> windsFileCheck(@Field("customer_id") String cid);
+
+    @GET("/api/services")
+    Call<ServicesModel> addServicesCategory();
 
     @GET("/api/categories")
     Call<CategoryModel> addCategory();
@@ -113,7 +143,7 @@ public interface APIService {
                                        @Field("description") String description,
                                        @Field("price") String price,
                                        @Field("food_id") String food_id,
-                                       @Field("extra_group_id") String[] extra_group_id
+                                       @Field("extra_group_id") String extra_group_id
     );
 
     @POST("/api/restaurantbyagentid")

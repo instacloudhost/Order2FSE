@@ -4,8 +4,7 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_baseline_notifications_24"
+        android:icon="@drawable/white_logo"
         app:showAsAction="always"
-        android:visible="false"
         android:title="" />
 </menu>

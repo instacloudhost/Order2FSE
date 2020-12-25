@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,8 +41,8 @@ public class ExtraItemActivity extends AppCompatActivity {
     ImageView extra_image;
     BetterSpinner extraFoodIdSpinner, extraGroupIdSpinner;
     TextView fooName;
-    String extraName,extraDescription,extraPrice,extraFoodId, foodId,foodIDGet;
-    String[] extraGroupId;
+    String extraName, extraDescription, extraPrice, extraFoodId, foodId, foodIDGet;
+    String extraGroupId, shopID;
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
 
@@ -70,9 +71,10 @@ public class ExtraItemActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         foodId = intent.getStringExtra("food_Id");
+        shopID = intent.getStringExtra("shopId");
 
         //Demo TextView
-        fooName = (TextView)findViewById(R.id.food_name);
+        fooName = (TextView) findViewById(R.id.food_name);
         fooName.setText(foodId);
         foodIDGet = fooName.getText().toString().trim();
         //EditText
@@ -97,8 +99,11 @@ public class ExtraItemActivity extends AppCompatActivity {
                 }
 
                 addExtra();
-                Intent intent = new Intent(ExtraItemActivity.this, ItemListActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(ExtraItemActivity.this, ItemListActivity.class);
+//                intent.putExtra("shopId",shopID);
+//
+//                startActivity(intent);o
+                onBackPressed();
                 finish();
             }
         });
@@ -178,15 +183,24 @@ public class ExtraItemActivity extends AppCompatActivity {
     private void showListinSpinner(List<DataExtraGroup> extraGroupList) {
         //String array to store all the book names
         String[] items = new String[extraGroupList.size()];
-        extraGroupId = new String[extraGroupList.size()];
+        //extraGroupId = new String[extraGroupList.size()];
 
         //Traversing through the whole list to get all the names
         for (int i = 0; i < extraGroupList.size(); i++) {
             //Storing names to string array
             items[i] = extraGroupList.get(i).getName();
-            items[i] = String.valueOf(extraGroupList.get(i).getId());
+            //items[i] = String.valueOf(extraGroupList.get(i).getId());
 
         }
+
+        extraGroupIdSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Getting State", parent.getItemAtPosition(position).toString());
+                String count = parent.getItemAtPosition(position).toString();
+                extraGroupId = String.valueOf(extraGroupList.get(position).getId());
+            }
+        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ExtraItemActivity.this, android.R.layout.simple_dropdown_item_1line, items);
 
@@ -197,7 +211,7 @@ public class ExtraItemActivity extends AppCompatActivity {
     public void addExtra() {
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.addExtraItems(extraName, extraDescription,extraPrice,foodIDGet,extraGroupId);
+        Call call = apiservice.addExtraItems(extraName, extraDescription, extraPrice, foodIDGet, extraGroupId);
 
         call.enqueue(new Callback() {
             @Override
@@ -205,9 +219,7 @@ public class ExtraItemActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     ExtraItemModel extraItemModel = (ExtraItemModel) response.body();
                     Log.d("Response: ", String.valueOf(extraItemModel.getMessage()));
-                    if (extraItemModel.getSuccess().equals("true")) {
-
-
+                    if (extraItemModel.getSuccess().equals(true)) {
 
 
                     } else {
@@ -235,7 +247,6 @@ public class ExtraItemActivity extends AppCompatActivity {
 //
 //        //super.onBackPressed();  // optional depending on your needs
 //    }
-
 
 
 }

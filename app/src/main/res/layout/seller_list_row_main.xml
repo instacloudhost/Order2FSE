@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_layout"
     android:layout_width="match_parent"
-    android:layout_height="155dp"
-    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
     android:orientation="vertical"
     app:cardCornerRadius="10dp"
-    app:cardElevation="15dp">
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:id="@+id/orderDateTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:gravity="left"
                 android:padding="10dp"
                 android:text="05-11-2020 | 02:55pm"
@@ -99,7 +99,24 @@
             </LinearLayout>
 
 
+
+
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/add_item_button"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="@drawable/edittext_design_shape"
+            android:text="Add Items"
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:textColor="@color/white">
+
+        </Button>
 
 
     </LinearLayout>

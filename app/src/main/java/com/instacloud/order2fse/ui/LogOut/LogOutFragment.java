@@ -43,9 +43,12 @@ public class LogOutFragment extends Fragment {
                 Context.MODE_PRIVATE);
         tokenid = token.getString("token", "");
 
+
+
+
         SharedPreferences.Editor editor = token.edit();
         editor.remove("token");
-        editor.commit();
+        editor.apply();
         Intent ma = new Intent(getContext(), LoginActivity.class);
         startActivity(ma);
         getActivity().finish();

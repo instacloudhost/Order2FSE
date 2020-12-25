@@ -1,9 +1,9 @@
-package com.instacloud.order2fse.ui.AddShop.Model;
+package com.instacloud.order2fse.ui.Login.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AddManagerModel {
+public class Order2LoginModel {
 
     @SerializedName("success")
     @Expose
@@ -38,6 +38,5 @@ public class AddManagerModel {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
 }

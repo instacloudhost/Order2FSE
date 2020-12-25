@@ -26,22 +26,25 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.google.android.material.snackbar.Snackbar;
+import com.instacloud.order2fse.MainActivity;
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.remote.APIService;
-import com.instacloud.order2fse.remote.RetrofitClient;
 import com.instacloud.order2fse.remote.RetrofitClient2;
 import com.instacloud.order2fse.ui.AddShop.Config.AppLocationService;
 import com.instacloud.order2fse.ui.AddShop.Config.LocationAddress;
 import com.instacloud.order2fse.ui.AddShop.Model.AddCustomerModel;
 import com.instacloud.order2fse.ui.AddShop.Model.AddManagerModel;
 import com.instacloud.order2fse.ui.AddShop.Model.StateModel;
-import com.instacloud.order2fse.ui.ShopDetails.ShopFormsActivity;
+import com.instacloud.order2fse.ui.ShopDetails.PaymentGatewayActivity;
+import com.instacloud.order2fse.ui.home.HomeFragment;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,15 +56,20 @@ import retrofit2.Retrofit;
  * A simple {@link Fragment} subclass.
  */
 public class AddShopFragment extends Fragment {
+
+
+    private ProgressDialog progressDialog;
     Button sing_up;
     EditText showLocation, shop_name, customer_name, email_address, mobile_number, password, minimum_order;
+    EditText gst_number,pan_number,voter_id_ADDHAAR_number,account_holder_name,account_number,ifsc_code,bank_name;
+    String shopName,gstNumber,panNumber,voterIdOrAddhaarNumber,accountHolderName,accountNumber,ifscCode,bankName;
     TextView lati, longi;
     Button btnGPSShowLocation, btnShowAddress, btnGetLocation;
     LocationManager locationManager;
-    String shopname, customername, emailaddress, mobilenumber, pass, minimumorder, address, isExclusive, stateSpin,
-            citySpin, latitude, longitude, shopid, managerId;
-
-    BetterSpinner isExclusiveSpinner, spinnerCity, spinnerState;
+    String shopname,customername,emailaddress,mobilenumber,pass,minimumorder,address,services,
+            stateSpin,citySpin,latitude,longitude,shopid,manager_api_token;
+    String serviceCategoryId, serviceAdminComission;
+    BetterSpinner sevicesSpinner, spinnerCity,spinnerState;
     private static final int REQUEST_LOCATION = 5;
     private static ProgressDialog mProgressDialog;
     private ArrayList<StateModel> goodModelArrayList;
@@ -74,15 +82,17 @@ public class AddShopFragment extends Fragment {
     private SharedPreferences token;
     private String extremes = "extremeStorage", type;
     private static final String TAG = "LocationAddress";
+
     public AddShopFragment() {
         // Required empty public constructor
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_add_seller, container, false);
+        view = inflater.inflate(R.layout.fragment_add_shop, container, false);
 
         token = getActivity().getSharedPreferences(extremes,
                 Context.MODE_PRIVATE);
@@ -93,7 +103,7 @@ public class AddShopFragment extends Fragment {
         sing_up = view.findViewById(R.id.sing_up);
         btnGetLocation = view.findViewById(R.id.getliveLocation);
         //Spinners
-        isExclusiveSpinner = (BetterSpinner) view.findViewById(R.id.IsExclusiveSpinner);
+        sevicesSpinner = (BetterSpinner) view.findViewById(R.id.IsExclusiveSpinner);
         spinnerCity = (BetterSpinner) view.findViewById(R.id.citySpinner);
         spinnerState = (BetterSpinner) view.findViewById(R.id.stateSpinner);
         //AddCustomer Form
@@ -106,10 +116,17 @@ public class AddShopFragment extends Fragment {
         lati = (TextView) view.findViewById(R.id.lati);
         longi = (TextView) view.findViewById(R.id.longi);
         showLocation = (EditText) view.findViewById(R.id.liveLocationAddress);
+        gst_number = (EditText) view.findViewById(R.id.gst_number);
+        pan_number = (EditText) view.findViewById(R.id.pan_number);
+        voter_id_ADDHAAR_number = (EditText) view.findViewById(R.id.voter_id_ADDHAAR_number);
+        account_holder_name = (EditText) view.findViewById(R.id.account_holder_name);
+        account_number = (EditText) view.findViewById(R.id.account_number);
+        ifsc_code = (EditText) view.findViewById(R.id.ifsc_code);
+        bank_name = (EditText) view.findViewById(R.id.bank_name);
 
         //Spinners
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, COUNTRIES);
-        isExclusiveSpinner.setAdapter(adapter);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, COUNTRIES);
+       // isExclusiveSpinner.setAdapter(adapter);
 
         String[] ITEMS = {"Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
                 "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh",
@@ -122,8 +139,8 @@ public class AddShopFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("Getting State", parent.getItemAtPosition(position).toString());
-                String state = parent.getItemAtPosition(position).toString();
-                district(state);
+                stateSpin = parent.getItemAtPosition(position).toString();
+                district(stateSpin);
             }
         });
 
@@ -142,54 +159,91 @@ public class AddShopFragment extends Fragment {
                     return;
                 }
                 addManager();
-                addResto();
-                if (shopid != null && managerId != null) {
 
-                    Intent intent = new Intent(getActivity(), ShopFormsActivity.class);
-                    intent.putExtra("id", shopid);
-                    intent.putExtra("shop_name",shopname);
-                    intent.putExtra("managerId", managerId);
-                    Toast.makeText(getContext(), "Successfully", Toast.LENGTH_LONG).show();
-                    startActivity(intent);
-                    // getActivity().finish();
 
-                }
 
 
             }
         });
 
         //Location Services
-        appLocationService = new AppLocationService(
-                getContext());
 
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            OnGPS();
-        } else {
-            getLocation();
-        }
-        Location location = appLocationService
-                .getLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            LocationAddress locationAddress = new LocationAddress();
-            locationAddress.getAddressFromLocation(latitude, longitude,
-                    getContext(), new GeocoderHandler());
-        } else {
-            showSettingsAlert();
-        }
+        getLocationAddress();
+
+        callMainCategory();
 
 
         return view;
 
     }
 
+
+    public void callMainCategory() {
+
+        Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
+        APIService apiservice = retrofit.create(APIService.class);
+        Call call = apiservice.addServicesCategory();
+
+        call.enqueue(new Callback<ServicesModel>() {
+
+            @Override
+            public void onResponse(Call<ServicesModel> call, Response<ServicesModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getSuccess().equals(true)) {
+                        List<ServicesDatum> categoryModels = response.body().getData();
+
+
+                        showListInSpinner(categoryModels);
+                    } else {
+                        Toast.makeText(getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServicesModel> call, Throwable t) {
+                Toast.makeText(getContext(), "Failure " + t, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    //Our method to show list
+    private void showListInSpinner(List<ServicesDatum> categoryModels) {
+        //String array to store all the book names
+        String[] items = new String[categoryModels.size()];
+
+        //Traversing through the whole list to get all the names
+        for (int i = 0; i < categoryModels.size(); i++) {
+            //Storing names to string array
+            items[i] = categoryModels.get(i).getName();
+        }
+
+        sevicesSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Getting State", parent.getItemAtPosition(position).toString());
+                String count = parent.getItemAtPosition(position).toString();
+                serviceCategoryId = String.valueOf(categoryModels.get(position).getId());
+                serviceAdminComission = String.valueOf(categoryModels.get(position).getAdminCommission());
+
+                // district(items);
+            }
+        });
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, items);
+
+        sevicesSpinner.setAdapter(adapter);
+
+
+    }
+
+
     public Boolean validate() {
         boolean valid = true;
 
-        isExclusive = isExclusiveSpinner.getText().toString().trim();
+        services = sevicesSpinner.getText().toString().trim();
         shopname = shop_name.getText().toString().trim();
         customername = customer_name.getText().toString().trim();
         emailaddress = email_address.getText().toString().trim();
@@ -202,13 +256,23 @@ public class AddShopFragment extends Fragment {
         latitude = lati.getText().toString().trim();
         longitude = longi.getText().toString().trim();
 
+        gstNumber = gst_number.getText().toString().trim();
+        panNumber = pan_number.getText().toString().trim();
+        voterIdOrAddhaarNumber = voter_id_ADDHAAR_number.getText().toString().trim();
+        accountHolderName = account_holder_name.getText().toString().trim();
+        accountNumber = account_number.getText().toString().trim();
+        ifscCode = ifsc_code.getText().toString().trim();
+        bankName = bank_name.getText().toString().trim();
 
-        if (isExclusive.trim().isEmpty()) {
-            isExclusiveSpinner.setError("Not Select");
+
+
+
+        if (services.trim().isEmpty()) {
+            sevicesSpinner.setError("Not Select");
             //Toast.makeText(this, "Enter Travel Allowance.", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
-            isExclusiveSpinner.setError(null);
+            sevicesSpinner.setError(null);
         }
 
         if (shopname.trim().isEmpty()) {
@@ -240,12 +304,12 @@ public class AddShopFragment extends Fragment {
             mobile_number.setError(null);
         }
 
-        if (pass.trim().isEmpty()) {
-            password.setError("Enter Password");
-            valid = false;
-        } else {
-            password.setError(null);
-        }
+//        if (pass.trim().isEmpty()) {
+//            password.setError("Enter Password");
+//            valid = false;
+//        } else {
+//            password.setError(null);
+//        }
 
         if (minimumorder.trim().isEmpty()) {
             minimum_order.setError("Enter Order Quantity");
@@ -292,6 +356,60 @@ public class AddShopFragment extends Fragment {
             longi.setError(null);
         }
 
+        if (gstNumber.trim().isEmpty()) {
+            gst_number.setError("Enter GSTIN");
+            valid = false;
+        } else {
+            gst_number.setError(null);
+        }
+
+        if (panNumber.trim().isEmpty()) {
+            pan_number.setError("Enter PAN Number");
+            valid = false;
+        } else {
+            pan_number.setError(null);
+        }
+
+        if (voterIdOrAddhaarNumber.trim().isEmpty()) {
+            voter_id_ADDHAAR_number.setError("Enter Voter/Aadhaar");
+            valid = false;
+        } else {
+            voter_id_ADDHAAR_number.setError(null);
+        }
+
+
+        if (accountHolderName.trim().isEmpty()) {
+            account_holder_name.setError("Enter Account Holder Name");
+            valid = false;
+        } else {
+            account_holder_name.setError(null);
+        }
+
+        if (accountNumber.trim().isEmpty()) {
+            account_number.setError("Enter Account No.");
+            valid = false;
+        } else {
+            account_number.setError(null);
+        }
+
+        if (ifscCode.trim().isEmpty()) {
+            ifsc_code.setError("Enter IFSC Code");
+            valid = false;
+        } else {
+            ifsc_code.setError(null);
+        }
+
+        if (bankName.trim().isEmpty()) {
+            bank_name.setError("Enter Bank Name");
+            valid = false;
+        } else {
+            bank_name.setError(null);
+        }
+
+
+
+
+
 
         return valid;
     }
@@ -299,10 +417,12 @@ public class AddShopFragment extends Fragment {
     private void addResto() {
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.addCustomer(token.getString("token", ""), shopname, "DEMO", address,
+        Call call = apiservice.addCustomer(manager_api_token,token.getString("userID", ""), shopname, "DEMO", address,
                 latitude, longitude, mobilenumber, mobilenumber,
-                "DEMO", "12", "15", "24",
-                "8", "1", "0", "12", "DEMO IMFORMATION", "1");
+                "DEMO", "12", "15", "7",
+                "8", "1", "0", serviceAdminComission,
+                "DEMO IMFORMATION", "1",stateSpin,citySpin,voterIdOrAddhaarNumber, Integer.parseInt(serviceCategoryId),panNumber,
+                minimumorder,ifscCode,gstNumber,bankName,accountNumber,accountHolderName);
 
         call.enqueue(new Callback<AddCustomerModel>() {
 
@@ -314,7 +434,26 @@ public class AddShopFragment extends Fragment {
                     shopid = String.valueOf(addCustomerModel.getData().getId());
                     SharedPreferences.Editor editor = token.edit();
                     editor.putString("restaurant_id", shopid);
-                    editor.commit();
+//                    editor.apply();
+
+                    if (shopid != null && manager_api_token != null) {
+
+                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+                        fr.replace(R.id.nav_host_fragment,new HomeFragment());
+                        //getActivity().putExtra("managerId", manager_api_token);
+                        Toast.makeText(getContext(), "Successfully", Toast.LENGTH_LONG).show();
+                        fr.commit();
+
+
+//                        Intent intent = new Intent(getContext(), PaymentGatewayActivity.class);
+//                        intent.putExtra("Shop_id", shopid);
+//                        startActivity(intent);
+//                        getActivity().finish();
+
+                       // startActivity(intent);
+                        //getActivity().finish();
+
+                    }
                 }
             }
 
@@ -329,26 +468,25 @@ public class AddShopFragment extends Fragment {
 
 
     public void addManager() {
+        progressBar();
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.addManager(customername, emailaddress, pass);
+        Call call = apiservice.addManager(customername, emailaddress);
 
         call.enqueue(new Callback<AddManagerModel>() {
             @Override
             public void onResponse(Call<AddManagerModel> call, Response<AddManagerModel> response) {
-                if (response.body() != null) {
+                if (response.isSuccessful()) {
                     AddManagerModel addManagerModel = response.body();
                     Log.d("Response: ", String.valueOf(addManagerModel.getMessage()));
-                    if (addManagerModel.getSuccess().equals(true)) {
-                        managerId = String.valueOf(addManagerModel.getData().getId());
+                        manager_api_token = String.valueOf(addManagerModel.getData().getApiToken());
                         SharedPreferences.Editor editor = token.edit();
-                        editor.putString("manager_id", managerId);
-                        editor.commit();
-                        Log.d("Response: ", String.valueOf(managerId));
-                    } else {
-                        //   progressDialog.cancel();
-                        // Toast.makeText(getContext(), addCustomerModel.getData(), Toast.LENGTH_LONG).show();
-                    }
+                        editor.putString("manager_api_token", manager_api_token);
+                        editor.apply();
+                        Log.d("Response: ", String.valueOf(manager_api_token));
+                        addResto();
+                        progressDialog.cancel();
+
                 }
             }
 
@@ -359,6 +497,34 @@ public class AddShopFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private void progressBar() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Just a moment");
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+    }
+
+    public void getLocationAddress() {
+
+        appLocationService = new AppLocationService(
+                getContext());
+
+        Location location = appLocationService
+                .getLocation(LocationManager.GPS_PROVIDER);
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            //  LocationAddress locationAddress = new LocationAddress();
+            LocationAddress.getAddressFromLocation(latitude, longitude,
+                    getContext(), new GeocoderHandler());
+        } else {
+            //showSettingsAlert();
+        }
 
     }
 
@@ -409,34 +575,6 @@ public class AddShopFragment extends Fragment {
         }
     }
 
-
-    private void OnGPS() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private void getLocation() {
-
-    }
-
-
-    private static final String[] COUNTRIES = new String[]{
-
-            "SILVER", "GOLD","PLATINUM","DIAMOND"
-
-    };
 
 
     private void district(String str) {
@@ -662,6 +800,16 @@ public class AddShopFragment extends Fragment {
                 distAdapter.notifyDataSetChanged();
                 break;
         }
+
+
+        spinnerCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Getting State", parent.getItemAtPosition(position).toString());
+                stateSpin = parent.getItemAtPosition(position).toString();
+                district(stateSpin);
+            }
+        });
     }
 
 }

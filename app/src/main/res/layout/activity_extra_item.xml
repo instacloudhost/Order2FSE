@@ -148,14 +148,16 @@
 
             <Button
                 android:id="@+id/add_extra_menu_Button"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@color/colorPrimary"
                 android:text="Submit"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:background="@drawable/edittext_design_shape">
+                android:textSize="18sp"
+                android:textAllCaps="true"
+                android:textColor="@color/white">
 
             </Button>
 

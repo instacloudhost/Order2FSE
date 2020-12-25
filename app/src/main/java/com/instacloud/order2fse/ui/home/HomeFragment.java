@@ -1,9 +1,12 @@
 package com.instacloud.order2fse.ui.home;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +38,7 @@ import com.instacloud.order2fse.PushNotification.network.RetrofitClientNotificat
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.Util.CheckNetwork;
 import com.instacloud.order2fse.Util.InternetConnection;
+import com.instacloud.order2fse.foreground.Tracking;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient;
 import com.instacloud.order2fse.remote.RetrofitClient2;
@@ -66,6 +71,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     String tokenid;
     ViewShopAdapter viewShopAdapter;
 
+    TextView totalReports;
+
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -76,9 +85,20 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Log.d("Response: ", tokenid);
 
 
+
+
+        totalReports = root.findViewById(R.id.todaysReport);
+
+        totalReports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
         if (token.contains("token")) {
 
             refreshMenu();
+
 
 
         }
@@ -224,6 +244,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
     }
+
+
 
 
 }

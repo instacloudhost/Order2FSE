@@ -6,23 +6,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_insurance"
+            android:icon="@drawable/ic_baseline_medical_services_24"
             android:title="@string/menu_insurance" />
 
 
         <item
             android:id="@+id/nav_ads"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_advertisement" />
 
         <item
             android:id="@+id/nav_bde_incentives"
+            android:icon="@drawable/rupeeindian"
             android:title="@string/menu_incentives" />
 
         <item
             android:id="@+id/nav_aboutUs"
             android:visible="false"
+            android:icon="@drawable/ic_person_black_24dp"
             android:title="@string/menu_aboutUs" />
 <!--        <item-->
 <!--            android:id="@+id/nav_mysubscription"-->
@@ -41,6 +46,7 @@
 <!--            android:title="@string/menu_guide" />-->
         <item
             android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_arrow_forward_black_24dp"
             android:title="@string/menu_logout" />
 
 

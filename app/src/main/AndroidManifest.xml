@@ -3,18 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.instacloud.order2fse">
 
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logonew"
+        android:icon="@drawable/white_logo"
         android:importantForAccessibility="yes"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logonew"
+        android:roundIcon="@drawable/white_logo"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.ShopDetails.AboutShopActivity"></activity>
+        android:theme="@style/Theme.Order2fse"
+        tools:targetApi="m">
+        <activity android:name=".ui.ShopDetails.AboutShopActivity"/>
         <activity android:name=".ui.Advertisement.CreateAdActivity" />
         <activity android:name=".Util.InternetConnection" />
-        <activity android:name=".ui.ShopDetails.ShopFormsActivity" />
+        <activity android:name=".ui.ShopDetails.PaymentGatewayActivity" />
         <activity android:name=".ui.Item.Activity.ExtraItemActivity" />
         <activity android:name=".ui.Item.Activity.AddItemActivity" />
         <activity android:name=".ui.Item.Activity.ItemListActivity" />
@@ -33,7 +46,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Order2fse" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -67,16 +80,12 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-    </application>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+        <service
+            android:name=".foreground.Tracking"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
+
 
 </manifest>

@@ -12,25 +12,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.instacloud.order2fse.MainActivity;
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.ui.UploadDocuments.UploadDocumentsActivity;
 
-public class ShopFormsActivity extends AppCompatActivity {
+public class PaymentGatewayActivity extends AppCompatActivity {
 
     EditText gst_number,pan_number,voter_id_ADDHAAR_number,account_holder_name,account_number,ifsc_code,bank_name;
     TextView shop_name;
-    Button  add_shop_details_btn;
+    Button  online_payment_btn,deduction_button,cash_payment_btn;
     String shopName,gstNumber,panNumber,voterIdOrAddhaarNumber,accountHolderName,accountNumber,ifscCode,bankName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_details);
+        setContentView(R.layout.activity_payment_details);
 
         Toolbar toolbar = findViewById(R.id.toolbarMenu);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        mTitle.setText("Shop Form");
+        mTitle.setText("Payment");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ImageView button = (ImageView) findViewById(R.id.backbutton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -52,27 +54,30 @@ public class ShopFormsActivity extends AppCompatActivity {
         bank_name = (EditText) findViewById(R.id.bank_name);
 
 
-        add_shop_details_btn = (Button) findViewById(R.id.add_shop_details_btn);
+        online_payment_btn = (Button) findViewById(R.id.online_payment_btn);
+        deduction_button = (Button) findViewById(R.id.deduction_button);
+        cash_payment_btn = (Button) findViewById(R.id.cash_payment_btn);
+
         onClick();
 
     }
 
     private void onClick(){
 
-        add_shop_details_btn.setOnClickListener(new View.OnClickListener() {
+        online_payment_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validate()) {
-
-                    Snackbar.make(v, "Please fill above details", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    return;
-                }
+//                if (!validate()) {
+//
+//                    Snackbar.make(v, "Please fill above details", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+//                    return;
+//                }
 
                 //addMenu();
 //                Intent intent = new Intent();
 //                setResult(RESULT_OK, intent);
-                Intent intent = new Intent(ShopFormsActivity.this, UploadDocumentsActivity.class);
+                Intent intent = new Intent(PaymentGatewayActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -83,14 +88,14 @@ public class ShopFormsActivity extends AppCompatActivity {
     public Boolean validate() {
         boolean valid = true;
 
-        shopName = shop_name.getText().toString().trim();
-        gstNumber = gst_number.getText().toString().trim();
-        panNumber = pan_number.getText().toString().trim();
-        voterIdOrAddhaarNumber = voter_id_ADDHAAR_number.getText().toString().trim();
-        accountHolderName = account_holder_name.getText().toString().trim();
-        accountNumber = account_number.getText().toString().trim();
-        ifscCode = ifsc_code.getText().toString().trim();
-        bankName = bank_name.getText().toString().trim();
+//        shopName = shop_name.getText().toString().trim();
+//        gstNumber = gst_number.getText().toString().trim();
+//        panNumber = pan_number.getText().toString().trim();
+//        voterIdOrAddhaarNumber = voter_id_ADDHAAR_number.getText().toString().trim();
+//        accountHolderName = account_holder_name.getText().toString().trim();
+//        accountNumber = account_number.getText().toString().trim();
+//        ifscCode = ifsc_code.getText().toString().trim();
+//        bankName = bank_name.getText().toString().trim();
 
 //        if (shopName.trim().isEmpty()) {
 //            shop_name.setError("Enter Shop Name");

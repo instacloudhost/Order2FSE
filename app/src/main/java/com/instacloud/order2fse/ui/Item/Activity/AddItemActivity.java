@@ -3,6 +3,7 @@ package com.instacloud.order2fse.ui.Item.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.instacloud.order2fse.MainActivity;
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient2;
@@ -38,6 +40,7 @@ import retrofit2.Retrofit;
 
 public class AddItemActivity extends AppCompatActivity {
 
+    private ProgressDialog progressDialog;
     EditText item_name, item_price, item_discount, item_description, item_Specification, item_package_count, item_weight;
     BetterSpinner unitSpinner, mainCategorySpinner, itemCategorySpinner, itemsSpinner;
     ImageView item_image;
@@ -51,7 +54,7 @@ public class AddItemActivity extends AppCompatActivity {
     String[] It = {"KG", "LITERS", "PIECES", "PACKET"};
     private String[] Items;
     private ArrayAdapter<String> adapterItemCategory, adapterItems;
-    String itemsName;
+    String itemsName, shopId;
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
 
@@ -75,6 +78,11 @@ public class AddItemActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        Intent intent2 = getIntent();
+        intent2.putExtra("shopID",shopId);
+
+        Intent intent = getIntent();
+        shopId = intent.getStringExtra("shopId");
 
         //EditText
         item_name = (EditText) findViewById(R.id.food_name);
@@ -108,9 +116,9 @@ public class AddItemActivity extends AppCompatActivity {
                 }
 
                 addMenu();
-//                Intent intent = new Intent();
-//                setResult(RESULT_OK, intent);
+
                 Intent intent = new Intent(AddItemActivity.this, ItemListActivity.class);
+                intent.putExtra("id",shopId);
                 startActivity(intent);
                 finish();
             }
@@ -185,10 +193,12 @@ public class AddItemActivity extends AppCompatActivity {
 
 
     public void addMenu() {
+
+        progressBar();
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
         Call call = apiservice.addMenu(itemName, itemPrice, itemDiscount, itemDescription,
-                itemIngredients, itemWeight, itemPackageCount, itemUnit, "true", "true", token.getString("restaurant_id", ""), mainCategoryId);
+                itemIngredients, itemWeight, itemPackageCount, itemUnit, "true", "true", shopId, mainCategoryId);
 
         call.enqueue(new Callback() {
             @Override
@@ -199,6 +209,7 @@ public class AddItemActivity extends AppCompatActivity {
                     if (addMenuModel.getSuccess().equals("true")) {
 
 
+                        progressDialog.cancel();
                     } else {
                         //   progressDialog.cancel();
                         //  Toast.makeText(AddMenuActivity.this, addMenuModel.getData(), Toast.LENGTH_LONG).show();
@@ -413,114 +424,25 @@ public class AddItemActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void district(String str) {
-
-        Log.d("jksjd", str);
-        BetterSpinner spinnerItems = (BetterSpinner) findViewById(R.id.itemsSpinner);
-        System.out.println(str);
-        switch (str) {
-
-            case "INDIAN":
-                Items = new String[]{"Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Prakasam", "Srikakulam", "Sri Potti Sriramulu Nellore", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR District, Kadapa (Cuddapah)"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "RICE":
-                Items = new String[]{"Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kra Daadi", "Kurung Kumey", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Papum Pare", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "SEAFOOD":
-                Items = new String[]{"Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao (North Cachar Hills)", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salamara-Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "BEVERAGES":
-                Items = new String[]{"Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran (Motihari)", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur (Bhabua)", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger (Monghyr)", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia (Purnea)", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "TANDOOR":
-                Items = new String[]{"Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada (South Bastar)", "Dhamtari", "Durg", "Gariyaband", "Janjgir-Champa", "Jashpur", "Kabirdham (Kawardha)", "Kanker (North Bastar)", "Kondagaon", "Korba", "Korea (Koriya)", "Mahasamund", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sukma", "Surajpur  ", "Surguja"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "SALAD/PAPAD":
-                Items = new String[]{"North Goa", "South Goa"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "BREAKFAST":
-                Items = new String[]{"Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha (Palanpur)", "Bharuch", "Bhavnagar", "Botad", "Chhota Udepur", "Dahod", "Dangs (Ahwa)", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kachchh", "Kheda (Nadiad)", "Mahisagar", "Mehsana", "Morbi", "Narmada (Rajpipla)", "Navsari", "Panchmahal (Godhra)", "Patan", "Porbandar", "Rajkot", "Sabarkantha (Himmatnagar)", "Surat", "Surendranagar", "Tapi (Vyara)", "Vadodara", "Valsad"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "DESSERTS":
-                Items = new String[]{"Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurgaon", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Mahendragarh", "Mewat", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "SOUP":
-                Items = new String[]{"Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul & Spiti", "Mandi", "Shimla", "Sirmaur (Sirmour)", "Solan", "Una"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "STARTERS":
-                Items = new String[]{"Anantnag", "Bandipore", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kargil", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Leh", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "APPETIZERS":
-                Items = new String[]{"Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribag", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahibganj", "Seraikela-Kharsawan", "Simdega", "West Singhbhum"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-            case "NOODLES":
-                Items = new String[]{"Bagalkot", "Ballari (Bellary)", "Belagavi (Belgaum)", "Bengaluru (Bangalore) Rural", "Bengaluru (Bangalore) Urban", "Bidar", "Chamarajanagar", "Chikballapur", "Chikkamagaluru (Chikmagalur)", "Chitradurga", "Dakshina Kannada", "Davangere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi (Gulbarga)", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru (Mysore)", "Raichur", "Ramanagara", "Shivamogga (Shimoga)", "Tumakuru (Tumkur)", "Udupi", "Uttara Kannada (Karwar)", "Vijayapura (Bijapur)", "Yadgir"};
-                adapterItems = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Items);
-                spinnerItems.setAdapter(adapterItems);
-                adapterItems.notifyDataSetChanged();
-                break;
-
-        }
-
-
-//
-//        spinnerItems.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//           @Override
-//           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//               Object item = parent.getItemAtPosition(position);
-//
-//
-//
-//           }
-//
-//           @Override
-//           public void onNothingSelected(AdapterView<?> parent) {
-//
-//           }
-//       });
-    }
 
     @Override
     public void onBackPressed() {
         // code here to show dialog
 
         Intent intentBack = new Intent(AddItemActivity.this, ItemListActivity.class);
+        intentBack.putExtra("id",shopId);
         startActivity(intentBack);
         finish();
         super.onBackPressed();  // optional depending on your needs
+    }
+
+    private void progressBar() {
+        progressDialog = new ProgressDialog(AddItemActivity.this);
+        progressDialog.setTitle("Just a moment");
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
     }
 
 

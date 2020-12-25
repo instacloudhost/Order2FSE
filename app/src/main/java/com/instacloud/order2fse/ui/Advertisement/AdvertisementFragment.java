@@ -28,15 +28,15 @@ public class AdvertisementFragment extends Fragment {
 
 
         crete_add_btn = (Button) view.findViewById(R.id.crete_add_btn);
-        crete_add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getContext(),CreateAdActivity.class);
-                startActivity(intent);
-
-            }
-        });
+//        crete_add_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(getContext(),CreateAdActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
 
         return view;
     }

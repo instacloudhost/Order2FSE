@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.instacloud.order2fse.MainActivity;
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.Util.CheckNetwork;
 import com.instacloud.order2fse.Util.InternetConnection;
 import com.instacloud.order2fse.remote.APIService;
-import com.instacloud.order2fse.remote.RetrofitClient;
 import com.instacloud.order2fse.remote.RetrofitClient2;
 import com.instacloud.order2fse.ui.Item.Model.AddMenuModel;
 import com.instacloud.order2fse.ui.Item.Model.DataAddMenu;
@@ -39,27 +40,18 @@ import retrofit2.Retrofit;
 public class ItemListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
 
+    private ProgressDialog progressDialog;
     private static final String TAG = "MenuListActivity";
-
-    //private List<MenuListModel> menuListModels;
     private RecyclerView recyclerView;
     ItemAdapter mAdapter;
-
     ItemViewAdapter menuItemViewAdapter;
     private ActionBar toolbar;
     private Button addMenuButton;
-
     String foodId;
-
-
     SwipeRefreshLayout swipeRefreshLayout;
+    String shopId,shopOwner,shopIDVIEW;
 
-    ArrayList<String> personNames = new ArrayList<>();
-    ArrayList<String> emailIds = new ArrayList<>();
-    ArrayList<String> mobileNumbers = new ArrayList<>();
-
-
-    String restaurantId;
+    TextView shopIdView;
 
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
@@ -80,13 +72,23 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_item_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Intent intent = getIntent();
-        restaurantId = intent.getStringExtra("id");
+        shopId = intent.getStringExtra("id");
+
+//        shopIdView = (TextView) findViewById(R.id.shopIdView);
+//        shopIdView.setText(shopId);
+//
+//        shopIDVIEW = shopIdView.getText().toString().trim();
+
+
+        shopOwner = intent.getStringExtra("manager_api_token");
         addMenuButton =(Button) findViewById(R.id.addMenuButton);
         addMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ItemListActivity.this, AddItemActivity.class);
-                startActivityForResult(intent, 10);
+                intent.putExtra("shopId",shopId);
+                startActivity(intent);
+             //    startActivityForResult(intent, 10);
                 finish();
             }
         });
@@ -105,7 +107,11 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
 
                                         if (CheckNetwork.isInternetAvailable(ItemListActivity.this)) //returns true if internet available
                                         {
-                                            refreshMenu();
+
+                                            if (shopId != null){
+                                                refreshMenu();
+                                            }
+
 
                                         } else {
 
@@ -123,7 +129,7 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
     private void refreshMenu() {
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.addMenuView(token.getString("restaurant_id",""));
+        Call call = apiservice.addMenuView(shopId);
 
         call.enqueue(new Callback<AddMenuModel>() {
 
@@ -137,7 +143,7 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
                             foodId = String.valueOf(message.get(i).getId());
                             SharedPreferences.Editor editor = token.edit();
                             editor.putString("food_id", String.valueOf(foodId));
-                            editor.commit();
+                            editor.apply();
 
                             menuItemViewAdapter = new ItemViewAdapter(getApplicationContext(), (ArrayList<DataAddMenu>) message);
                             recyclerView.setAdapter(menuItemViewAdapter);
@@ -199,5 +205,26 @@ public class ItemListActivity extends AppCompatActivity implements SwipeRefreshL
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+
+    private void progressBar() {
+        progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.setTitle("Authenticating");
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        // code here to show dialog
+
+        Intent intentBack = new Intent(ItemListActivity.this, MainActivity.class);
+        startActivity(intentBack);
+        finish();
+        super.onBackPressed();  // optional depending on your needs
     }
 }
