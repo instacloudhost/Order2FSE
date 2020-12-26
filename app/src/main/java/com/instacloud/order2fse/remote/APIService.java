@@ -13,6 +13,8 @@ import com.instacloud.order2fse.ui.Item.Model.ExtraItemModel;
 import com.instacloud.order2fse.ui.Item.Model.ProductsModel.ItemModel;
 import com.instacloud.order2fse.ui.Item.Model.SubCategoryModel.SubCategoryModel;
 import com.instacloud.order2fse.ui.Login.Model.Order2LoginModel;
+import com.instacloud.order2fse.ui.Payment.AgentCommissionModel;
+import com.instacloud.order2fse.ui.Payment.PaymentModel;
 import com.instacloud.order2fse.ui.home.ShopByAgentIdModel;
 
 import okhttp3.MultipartBody;
@@ -21,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -40,10 +43,21 @@ public interface APIService {
 
     @POST("/api/login")
     @FormUrlEncoded
+//    @Headers("Content-Type: application/json")
     Call<Order2LoginModel> checkUserOrder2(@Field("email") String email,
                                      @Field("password") String password,
                                      @Field("device_token") String device_token);
 
+    @POST("/api/restaurantpayment")
+    @FormUrlEncoded
+    Call<PaymentModel> sendPaymentMode(@Field("restaurant_id") String restaurant_id,
+                                       @Field("payment_option") String payment_option);
+
+    @POST("/api/agentcommission")
+    @FormUrlEncoded
+    Call<AgentCommissionModel> sendAgentCommission(@Field("user_id") String user_id,
+                                                   @Field("restaurants_id") String restaurants_id,
+                                                   @Field("agent_commision") String agent_commision);
 
     @POST("/api/tracking")
     @FormUrlEncoded
@@ -66,11 +80,8 @@ public interface APIService {
                                        @Field("admin_commission") String admin_commission,
                                        @Field("default_tax") String default_tax,
                                        @Field("delivery_range") String delivaryrange,
-                                       @Field("default_tax") String default_tax2,
                                        @Field("available_for_delivery") String availablefordelivery,
                                        @Field("closed") String closed,
-                                       @Field("admin_commission") String admin_commission2,
-                                       @Field("information") String information2,
                                        @Field("active") String active,
                                        @Field("state") String state,
                                        @Field("city") String city,
@@ -148,11 +159,7 @@ public interface APIService {
 
     @POST("/api/restaurantbyagentid")
     @FormUrlEncoded
-    Call<ShopByAgentIdModel> getRestaurantByAgentId(@Field("name") String name,
-                                                    @Field("description") String description,
-                                                    @Field("price") String price,
-                                                    @Field("food_id") String food_id,
-                                                    @Field("agent_id") String agentId);//import okhttp3.ResponseBody;
+    Call<ShopByAgentIdModel> getRestaurantByAgentId(@Field("agent_id") String agentId);//import okhttp3.ResponseBody;
 }
 
 

@@ -39,7 +39,7 @@ public class ShopListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
     SwipeRefreshLayout swipeRefreshLayout;
-    String tokenid;
+    String userId;
     ViewRestaurantAdapterList viewRestaurantAdapter;
     LinearLayoutManager linearLayoutManager;
 
@@ -53,8 +53,8 @@ public class ShopListFragment extends Fragment implements SwipeRefreshLayout.OnR
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_items);
         token = getActivity().getSharedPreferences(extremes,
                 Context.MODE_PRIVATE);
-        tokenid = token.getString("token", "");
-        Log.d("Response: ", tokenid);
+        userId = token.getString("userID", "");
+        Log.d("Response: ", userId);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -83,7 +83,7 @@ public class ShopListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void refreshMenu() {
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.getRestaurantByAgentId("Test", "Test", "100", "56", tokenid);
+        Call call = apiservice.getRestaurantByAgentId(userId);
 
         call.enqueue(new Callback<ShopByAgentIdModel>() {
 

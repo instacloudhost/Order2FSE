@@ -71,14 +71,14 @@ public class AboutShopActivity extends AppCompatActivity {
         shop_name.setText(Shop_name);
         shop_description.setText(Shop_description);
         shop_address.setText(Shop_address);
-        latitude.setText(Latitude);
-        longitude.setText(Longitude);
+//        latitude.setText(Latitude);
+//        longitude.setText(Longitude);
         phone.setText(Phone);
         mobile.setText(Mobile);
         information.setText(Information);
-        adminCommission.setText("Commission "+AdminCommission+" %");
-        deliveryFee.setText("Rs. "+DeliveryFee+" /-");
-        deliveryRange.setText(DeliveryRange + "KM");
+//        adminCommission.setText("Commission "+AdminCommission+" %");
+//        deliveryFee.setText("Rs. "+DeliveryFee+" /-");
+//        deliveryRange.setText(DeliveryRange + "KM");
 
 
 

@@ -25,9 +25,14 @@
         android:theme="@style/Theme.Order2fse"
         tools:targetApi="m">
         <activity android:name=".ui.ShopDetails.AboutShopActivity"/>
+        <activity android:name=".ui.Payment.PaymentGatewayActivity">
+
+
+
+
+        </activity>
         <activity android:name=".ui.Advertisement.CreateAdActivity" />
         <activity android:name=".Util.InternetConnection" />
-        <activity android:name=".ui.ShopDetails.PaymentGatewayActivity" />
         <activity android:name=".ui.Item.Activity.ExtraItemActivity" />
         <activity android:name=".ui.Item.Activity.AddItemActivity" />
         <activity android:name=".ui.Item.Activity.ItemListActivity" />

@@ -143,12 +143,12 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void getLoginDetails() {
+    private void getLoginDetails(String fireBase_token) {
 
         progressBar();
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.checkUserOrder2(mail,pass,deviceToken);
+        Call call = apiservice.checkUserOrder2(mail,pass,fireBase_token);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -166,17 +166,21 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(100));
                         editor.apply();
 
-                        if (token.contains("token")) {
+                        if (token.contains("token") && token.contains("userID")) {
 //
 
 
                             startService(tokenid);
                             progressDialog.cancel();
-                            Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_LONG).show();
                             Intent main = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(main);
                             finish();
 
+                        }
+                        else {
+
+                           // Toast.makeText(LoginActivity.this, "Token & UserID not Available", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
@@ -188,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.d("Error: ", t.getMessage());
             }
         });
@@ -274,7 +278,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (null != task.getResult ()) {
                         //Got FirebaseMessagingToken
                         String firebaseMessagingToken = Objects.requireNonNull ( task.getResult () );
-                        Toast.makeText(LoginActivity.this, "FCM_Token - " + firebaseMessagingToken, Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(LoginActivity.this, "FCM_Token - " + firebaseMessagingToken, Toast.LENGTH_LONG).show();
                         Log.d("MYTAG", "This is your Firebase token - " + firebaseMessagingToken);
 
 
@@ -282,10 +286,12 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("device_token", firebaseMessagingToken);
                         editor.apply();
 
+                        String fireBase_token = firebaseMessagingToken;
+
 
                         if (token.contains("device_token")){
 
-                            getLoginDetails();
+                            getLoginDetails(fireBase_token);
 
                         }
                         //Use firebaseMessagingToken further

@@ -42,7 +42,7 @@ public class BDEIncentivesFragment extends Fragment implements SwipeRefreshLayou
     private String extremes = "extremeStorage", type;
     private SharedPreferences token;
     SwipeRefreshLayout swipeRefreshLayout;
-    String tokenid;
+    String userID;
     BDEIncentivesAdapter bdeIncentivesAdapter;
 
 
@@ -56,8 +56,8 @@ public class BDEIncentivesFragment extends Fragment implements SwipeRefreshLayou
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_incentives);
         token = getActivity().getSharedPreferences(extremes,
                 Context.MODE_PRIVATE);
-        tokenid = token.getString("token", "");
-        Log.d("Response: ", tokenid);
+        userID = token.getString("userID", "");
+        Log.d("Response: ", userID);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout_incentives);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.post(new Runnable() {
@@ -85,7 +85,7 @@ public class BDEIncentivesFragment extends Fragment implements SwipeRefreshLayou
     private void refreshMenu() {
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.getRestaurantByAgentId("Test", "Test", "100", "56", tokenid);
+        Call call = apiservice.getRestaurantByAgentId(userID);
 
         call.enqueue(new Callback<ShopByAgentIdModel>() {
 

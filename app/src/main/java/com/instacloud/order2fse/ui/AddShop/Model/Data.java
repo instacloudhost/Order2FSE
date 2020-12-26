@@ -28,9 +28,12 @@ public class Data {
     @SerializedName("id")
     @Expose
     private Integer id;
+    //    @SerializedName("custom_fields")
+//    @Expose
+//    private List<Object> customFields = null;
     @SerializedName("custom_fields")
     @Expose
-    private List<Object> customFields = null;
+    private Object customFields = null;
     @SerializedName("has_media")
     @Expose
     private Boolean hasMedia;
@@ -97,11 +100,11 @@ public class Data {
         this.id = id;
     }
 
-    public List<Object> getCustomFields() {
+    public Object getCustomFields() {
         return customFields;
     }
 
-    public void setCustomFields(List<Object> customFields) {
+    public void setCustomFields(Object customFields) {
         this.customFields = customFields;
     }
 

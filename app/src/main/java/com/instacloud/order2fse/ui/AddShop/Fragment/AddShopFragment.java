@@ -26,11 +26,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.google.android.material.snackbar.Snackbar;
-import com.instacloud.order2fse.MainActivity;
 import com.instacloud.order2fse.R;
 import com.instacloud.order2fse.remote.APIService;
 import com.instacloud.order2fse.remote.RetrofitClient2;
@@ -39,8 +38,7 @@ import com.instacloud.order2fse.ui.AddShop.Config.LocationAddress;
 import com.instacloud.order2fse.ui.AddShop.Model.AddCustomerModel;
 import com.instacloud.order2fse.ui.AddShop.Model.AddManagerModel;
 import com.instacloud.order2fse.ui.AddShop.Model.StateModel;
-import com.instacloud.order2fse.ui.ShopDetails.PaymentGatewayActivity;
-import com.instacloud.order2fse.ui.home.HomeFragment;
+import com.instacloud.order2fse.ui.Payment.PaymentGatewayActivity;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
@@ -50,6 +48,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 
 /**
@@ -68,7 +68,7 @@ public class AddShopFragment extends Fragment {
     LocationManager locationManager;
     String shopname,customername,emailaddress,mobilenumber,pass,minimumorder,address,services,
             stateSpin,citySpin,latitude,longitude,shopid,manager_api_token;
-    String serviceCategoryId, serviceAdminComission;
+    String serviceCategoryId, serviceAdminComission,serviceAgentCommission,userId;
     BetterSpinner sevicesSpinner, spinnerCity,spinnerState;
     private static final int REQUEST_LOCATION = 5;
     private static ProgressDialog mProgressDialog;
@@ -78,6 +78,8 @@ public class AddShopFragment extends Fragment {
     private ArrayAdapter<String> distAdapter;
     private String[] distItem;
     private View view;
+
+    private AwesomeValidation mAwesomeValidation;
     AppLocationService appLocationService;
     private SharedPreferences token;
     private String extremes = "extremeStorage", type;
@@ -99,6 +101,9 @@ public class AddShopFragment extends Fragment {
 
         String tokenid = token.getString("token", "");
         Log.d("Response: ", tokenid);
+
+        userId = token.getString("userID", "");
+        Log.d("Response: ", userId);
         //Buttons
         sing_up = view.findViewById(R.id.sing_up);
         btnGetLocation = view.findViewById(R.id.getliveLocation);
@@ -107,14 +112,10 @@ public class AddShopFragment extends Fragment {
         spinnerCity = (BetterSpinner) view.findViewById(R.id.citySpinner);
         spinnerState = (BetterSpinner) view.findViewById(R.id.stateSpinner);
         //AddCustomer Form
-        shop_name = view.findViewById(R.id.shop_name);
-        customer_name = view.findViewById(R.id.gstin_name);
-        email_address = view.findViewById(R.id.email_address);
-        mobile_number = view.findViewById(R.id.mobile_number);
-        password = view.findViewById(R.id.password);
-        minimum_order = view.findViewById(R.id.minimum_order);
-        lati = (TextView) view.findViewById(R.id.lati);
-        longi = (TextView) view.findViewById(R.id.longi);
+        shop_name = (EditText) view.findViewById(R.id.shop_name);
+        customer_name = (EditText) view.findViewById(R.id.customer_name);
+        email_address = (EditText) view.findViewById(R.id.email_address);
+        mobile_number = (EditText) view.findViewById(R.id.mobile_number);
         showLocation = (EditText) view.findViewById(R.id.liveLocationAddress);
         gst_number = (EditText) view.findViewById(R.id.gst_number);
         pan_number = (EditText) view.findViewById(R.id.pan_number);
@@ -123,6 +124,28 @@ public class AddShopFragment extends Fragment {
         account_number = (EditText) view.findViewById(R.id.account_number);
         ifsc_code = (EditText) view.findViewById(R.id.ifsc_code);
         bank_name = (EditText) view.findViewById(R.id.bank_name);
+
+//        mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
+//        mAwesomeValidation.setContext(getContext());
+//        mAwesomeValidation.addValidation(this, R.id.shop_name, "[a-zA-Z\\s]+", R.string.err_name);
+//        mAwesomeValidation.addValidation(this, R.id.customer_name, "[a-zA-Z\\s]+", R.string.err_customer_name);
+//        mAwesomeValidation.addValidation(this, R.id.pan_number, "^[a-zA-Z0-9]{10}$", R.string.err_pan);
+//        mAwesomeValidation.addValidation(this, R.id.mobile_number, "^[0-9]{10}$", R.string.err_mobile);
+//        mAwesomeValidation.addValidation(this, R.id.liveLocationAddress, "^[0-9]{6}$", R.string.err_pin);
+//        mAwesomeValidation.addValidation(this, R.id.email_address, "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", R.string.err_email);
+//        mAwesomeValidation.addValidation(this, R.id.pan_number, "^[0-9a-zA-z]{10,15}$", R.string.err_van);
+//        mAwesomeValidation.addValidation(this, R.id.voter_id_ADDHAAR_number, "[a-zA-Z\\s]+", R.string.err_name);
+//        mAwesomeValidation.addValidation(this, R.id.account_holder_name, "^[0-9]{9,25}$", R.string.err_account_no);
+//        mAwesomeValidation.addValidation(this, R.id.account_number, "^[a-zA-z0-9]{9,20}$", R.string.err_name);
+//        mAwesomeValidation.addValidation(this, R.id.ifsc_code, "^[a-zA-z0-9]{9,20}$", R.string.err_name);
+//        mAwesomeValidation.addValidation(this, R.id.bank_name, "^[a-zA-z0-9]{9,20}$", R.string.err_name);
+
+
+        password = view.findViewById(R.id.password);
+        minimum_order = view.findViewById(R.id.minimum_order);
+        lati = (TextView) view.findViewById(R.id.lati);
+        longi = (TextView) view.findViewById(R.id.longi);
+
 
         //Spinners
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, COUNTRIES);
@@ -227,6 +250,8 @@ public class AddShopFragment extends Fragment {
                 String count = parent.getItemAtPosition(position).toString();
                 serviceCategoryId = String.valueOf(categoryModels.get(position).getId());
                 serviceAdminComission = String.valueOf(categoryModels.get(position).getAdminCommission());
+                serviceAgentCommission =String.valueOf(categoryModels.get(position).getAgentCommission());
+
 
                 // district(items);
             }
@@ -356,12 +381,12 @@ public class AddShopFragment extends Fragment {
             longi.setError(null);
         }
 
-        if (gstNumber.trim().isEmpty()) {
-            gst_number.setError("Enter GSTIN");
-            valid = false;
-        } else {
-            gst_number.setError(null);
-        }
+//        if (gstNumber.trim().isEmpty()) {
+//            gst_number.setError("Enter GSTIN");
+//            valid = false;
+//        } else {
+//            gst_number.setError(null);
+//        }
 
         if (panNumber.trim().isEmpty()) {
             pan_number.setError("Enter PAN Number");
@@ -417,11 +442,9 @@ public class AddShopFragment extends Fragment {
     private void addResto() {
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.addCustomer(manager_api_token,token.getString("userID", ""), shopname, "DEMO", address,
+        Call call = apiservice.addCustomer(manager_api_token,userId, shopname, "DEMO", address,
                 latitude, longitude, mobilenumber, mobilenumber,
-                "DEMO", "12", "15", "7",
-                "8", "1", "0", serviceAdminComission,
-                "DEMO IMFORMATION", "1",stateSpin,citySpin,voterIdOrAddhaarNumber, Integer.parseInt(serviceCategoryId),panNumber,
+                "DEMO", serviceAdminComission, "15", "7", "1", "0", "1",stateSpin,citySpin,voterIdOrAddhaarNumber, Integer.parseInt(serviceCategoryId),panNumber,
                 minimumorder,ifscCode,gstNumber,bankName,accountNumber,accountHolderName);
 
         call.enqueue(new Callback<AddCustomerModel>() {
@@ -434,21 +457,22 @@ public class AddShopFragment extends Fragment {
                     shopid = String.valueOf(addCustomerModel.getData().getId());
                     SharedPreferences.Editor editor = token.edit();
                     editor.putString("restaurant_id", shopid);
-//                    editor.apply();
+                    editor.apply();
 
                     if (shopid != null && manager_api_token != null) {
+//
+//                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+//                        fr.replace(R.id.nav_host_fragment,new HomeFragment());
+//                        //getActivity().putExtra("managerId", manager_api_token);
+//                        Toast.makeText(getContext(), "Successfully", Toast.LENGTH_LONG).show();
+//                        fr.commit();
 
-                        FragmentTransaction fr = getFragmentManager().beginTransaction();
-                        fr.replace(R.id.nav_host_fragment,new HomeFragment());
-                        //getActivity().putExtra("managerId", manager_api_token);
-                        Toast.makeText(getContext(), "Successfully", Toast.LENGTH_LONG).show();
-                        fr.commit();
 
-
-//                        Intent intent = new Intent(getContext(), PaymentGatewayActivity.class);
-//                        intent.putExtra("Shop_id", shopid);
-//                        startActivity(intent);
-//                        getActivity().finish();
+                        Intent intent = new Intent(getContext(), PaymentGatewayActivity.class);
+                        intent.putExtra("Shop_id", shopid);
+                        intent.putExtra("agentCommission",serviceAgentCommission);
+                        startActivity(intent);
+                        getActivity().finish();
 
                        // startActivity(intent);
                         //getActivity().finish();
@@ -459,7 +483,7 @@ public class AddShopFragment extends Fragment {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.d("Error: ", t.getMessage());
             }
         });
@@ -492,7 +516,7 @@ public class AddShopFragment extends Fragment {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.d("Error: ", t.getMessage());
             }
         });

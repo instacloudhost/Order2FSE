@@ -45,9 +45,9 @@ public class Data {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
-    @SerializedName("custom_fields")
-    @Expose
-    private CustomFields customFields;
+//    @SerializedName("custom_fields")
+//    @Expose
+//    private CustomFields customFields;
     @SerializedName("has_media")
     @Expose
     private Boolean hasMedia;
@@ -159,13 +159,13 @@ public class Data {
         this.updatedAt = updatedAt;
     }
 
-    public CustomFields getCustomFields() {
-        return customFields;
-    }
-
-    public void setCustomFields(CustomFields customFields) {
-        this.customFields = customFields;
-    }
+//    public CustomFields getCustomFields() {
+//        return customFields;
+//    }
+//
+//    public void setCustomFields(CustomFields customFields) {
+//        this.customFields = customFields;
+//    }
 
     public Boolean getHasMedia() {
         return hasMedia;

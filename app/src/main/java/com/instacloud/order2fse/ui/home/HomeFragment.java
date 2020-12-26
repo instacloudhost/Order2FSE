@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private SharedPreferences token;
     SwipeRefreshLayout swipeRefreshLayout;
     LinearLayoutManager linearLayoutManager;
-    String tokenid;
+    String user_id;
     ViewShopAdapter viewShopAdapter;
 
     TextView totalReports;
@@ -81,8 +81,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         token = requireContext().getSharedPreferences(extremes,
                 Context.MODE_PRIVATE);
-        tokenid = token.getString("token", "");
-        Log.d("Response: ", tokenid);
+        user_id = token.getString("userID", "");
+        Log.d("Response: ", user_id);
 
 
 
@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void refreshMenu() {
         Retrofit retrofit = RetrofitClient2.getRetrofitOrder();
         APIService apiservice = retrofit.create(APIService.class);
-        Call call = apiservice.getRestaurantByAgentId("Test", "Test", "100", "56", tokenid);
+        Call call = apiservice.getRestaurantByAgentId(user_id);
 
         call.enqueue(new Callback<ShopByAgentIdModel>() {
 
@@ -185,7 +185,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             @Override
             public void onFailure(Call<ShopByAgentIdModel> call, Throwable t) {
-                Toast.makeText(getContext(), "Failure " + t, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getContext(), "Failure " + t, Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -99,7 +99,7 @@
                 android:layout_weight="0.2"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/fastfood" />
+                app:srcCompat="@drawable/logo_order" />
 
 
             <LinearLayout
